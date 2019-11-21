@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.ArrayList;
 
 import models.User;
 import models.UserType;
@@ -20,13 +19,12 @@ public class UsersManager extends TableManager {
 		try {
 			user = getUser(email);
 			
-			if(user == null)
-				return LoginResponse.AccountDoesNotExist;
-			
 			if(user.getPassword().equals(password))
 				return LoginResponse.Success;
 			
 			return LoginResponse.IncorrectPassword;
+		} catch(ResourceNotFoundDatabaseException e) {
+			return LoginResponse.AccountDoesNotExist;
 		} catch (DatabaseException e) {
 			return LoginResponse.ServerError;
 		}
@@ -54,7 +52,7 @@ public class UsersManager extends TableManager {
 				return new User(userID, name, userEmail, password, preferredName, pictureURL, userType);
 			}
 			
-			return null;
+			throw new ResourceNotFoundDatabaseException("No user found with that email");
 		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage());
 		}
@@ -80,5 +78,31 @@ public class UsersManager extends TableManager {
 		catch (SQLException e) {
 			throw new DatabaseException(e.getMessage());
 		}
+	}
+	
+	public void updateUser(String email, User updatedUser) throws DatabaseException{
+		String updateUserQuery = "UPDATE users SET name = ?, email = ?, password = ?, preferred_name = ?, picture_url = ?, is_cp = ? "
+				+ "WHERE email = ?";
+		
+		try {
+			PreparedStatement updateUser = dbConnection.prepareStatement(updateUserQuery);
+			updateUser.setString(1, updatedUser.getName());
+			updateUser.setString(2, updatedUser.getEmail());
+			updateUser.setString(3, updatedUser.getPassword());
+			updateUser.setString(4, updatedUser.getPreferredName());
+			updateUser.setString(5, updatedUser.getPictureURL());
+			updateUser.setBoolean(6, updatedUser.getUserType() == UserType.CP);
+			updateUser.setString(7, updatedUser.getEmail());
+			
+			if(updateUser.executeUpdate() == 0) {
+				throw new ResourceNotFoundDatabaseException("No user with that email exists");
+			}
+		} catch (SQLIntegrityConstraintViolationException e) {
+			throw new UniqueFieldCollisionDatabaseException("Email is already in use");
+		}
+		catch (SQLException e) {
+			throw new DatabaseException(e.getMessage());
+		}
+		
 	}
 }
