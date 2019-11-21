@@ -10,6 +10,18 @@ public class User {
 	private UserType userType;
 	private int defaultCourseID;
 	
+	public User(String name, String email, String password, String preferredName, String pictureURL, 
+			UserType userType) {
+		this.id = -1;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.preferredName = preferredName;
+		this.pictureURL = pictureURL;
+		this.userType = userType;
+		this.defaultCourseID = -1;
+	}
+	
 	public User(int id, String name, String email, String password, String preferredName, String pictureURL,
 			UserType userType, int defaultCourseID) {
 		this.id = id;
