@@ -1,4 +1,4 @@
-package tablemanagers;
+package db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
-import BookWorm.SignUpResponse;
 import models.User;
 import models.UserType;
 

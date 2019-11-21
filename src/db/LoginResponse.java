@@ -1,4 +1,4 @@
-package tablemanagers;
+package db;
 
 public enum LoginResponse {
 	Success("Success"),

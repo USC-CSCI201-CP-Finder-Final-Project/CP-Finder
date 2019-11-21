@@ -1,4 +1,4 @@
-package tablemanagers;
+package db;
 import java.sql.*;
 
 public abstract class TableManager {
