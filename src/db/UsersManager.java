@@ -33,7 +33,7 @@ public class UsersManager extends TableManager {
 	}
 	
 	public User getUser(String email) throws DatabaseException {
-		String getUserQuery = "SELECT user_id, name, email, password, preferred_name, picture_url, user_type, default_course_id FROM users "
+		String getUserQuery = "SELECT user_id, name, email, password, preferred_name, picture_url, user_type FROM users "
 				+ "WHERE email = ? ";
 		
 		try {
@@ -50,9 +50,8 @@ public class UsersManager extends TableManager {
 				String preferredName = results.getString("preferred_name");
 				String pictureURL = results.getString("picture_url");
 				UserType userType = results.getBoolean("is_cp") ? UserType.CP : UserType.Student;
-				int defaultCourseID = results.getInt("default_course_id");
 				
-				return new User(userID, name, userEmail, password, preferredName, pictureURL, userType, defaultCourseID);
+				return new User(userID, name, userEmail, password, preferredName, pictureURL, userType);
 			}
 			
 			return null;
@@ -62,8 +61,8 @@ public class UsersManager extends TableManager {
 	}
 	
 	public void createUser(User user) throws DatabaseException{
-		String createUserQuery = "INSERT INTO users (name, email, password, preferred_name, picture_url, is_cp, default_course_id) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?);";
+		String createUserQuery = "INSERT INTO users (name, email, password, preferred_name, picture_url, is_cp) "
+				+ "VALUES (?, ?, ?, ?, ?, ?);";
 		
 		try {
 			PreparedStatement createUser = dbConnection.prepareStatement(createUserQuery);
@@ -73,7 +72,6 @@ public class UsersManager extends TableManager {
 			createUser.setString(4, user.getPreferredName());
 			createUser.setString(5, user.getPictureURL());
 			createUser.setBoolean(6, user.getUserType() == UserType.CP);
-			createUser.setInt(7, user.getDefaultCourseID());
 			
 			createUser.executeUpdate();
 		} catch (SQLIntegrityConstraintViolationException e) {

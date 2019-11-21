@@ -8,7 +8,6 @@ public class User {
 	private String preferredName;
 	private String pictureURL;
 	private UserType userType;
-	private int defaultCourseID;
 	
 	public User(String name, String email, String password, String preferredName, String pictureURL, 
 			UserType userType) {
@@ -19,11 +18,10 @@ public class User {
 		this.preferredName = preferredName;
 		this.pictureURL = pictureURL;
 		this.userType = userType;
-		this.defaultCourseID = -1;
 	}
 	
 	public User(int id, String name, String email, String password, String preferredName, String pictureURL,
-			UserType userType, int defaultCourseID) {
+			UserType userType) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
@@ -31,7 +29,6 @@ public class User {
 		this.preferredName = preferredName;
 		this.pictureURL = pictureURL;
 		this.userType = userType;
-		this.defaultCourseID = defaultCourseID;
 	}
 
 	public int getId() {
@@ -88,13 +85,5 @@ public class User {
 
 	public void setUserType(UserType userType) {
 		this.userType = userType;
-	}
-
-	public int getDefaultCourseID() {
-		return defaultCourseID;
-	}
-
-	public void setDefaultCourseID(int defaultCourseID) {
-		this.defaultCourseID = defaultCourseID;
 	}
 }
