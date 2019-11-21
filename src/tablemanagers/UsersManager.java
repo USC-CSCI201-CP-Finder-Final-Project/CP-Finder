@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
+import BookWorm.SignUpResponse;
 import models.User;
 import models.UserType;
 
@@ -48,7 +50,7 @@ public class UsersManager extends TableManager {
 				String password = results.getString("password");
 				String preferredName = results.getString("preferred_name");
 				String pictureURL = results.getString("picture_url");
-				UserType userType = results.getBoolean("user_type") ? UserType.CP : UserType.Student;
+				UserType userType = results.getBoolean("is_cp") ? UserType.CP : UserType.Student;
 				int defaultCourseID = results.getInt("default_course_id");
 				
 				return new User(userID, name, userEmail, password, preferredName, pictureURL, userType, defaultCourseID);
@@ -56,6 +58,29 @@ public class UsersManager extends TableManager {
 			
 			return null;
 		} catch (SQLException e) {
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+	
+	public void createUser(User user) throws DatabaseException{
+		String createUserQuery = "INSERT INTO users (name, email, password, preferred_name, picture_url, is_cp, default_course_id) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?);";
+		
+		try {
+			PreparedStatement createUser = dbConnection.prepareStatement(createUserQuery);
+			createUser.setString(1, user.getName());
+			createUser.setString(2, user.getEmail());
+			createUser.setString(3, user.getPassword());
+			createUser.setString(4, user.getPreferredName());
+			createUser.setString(5, user.getPictureURL());
+			createUser.setBoolean(6, user.getUserType() == UserType.CP);
+			createUser.setInt(7, user.getDefaultCourseID());
+			
+			createUser.executeUpdate();
+		} catch (SQLIntegrityConstraintViolationException e) {
+			throw new UniqueFieldCollisionDatabaseException("Email is already in use");
+		}
+		catch (SQLException e) {
 			throw new DatabaseException(e.getMessage());
 		}
 	}
