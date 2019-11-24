@@ -72,6 +72,15 @@ public class UsersManager extends TableManager {
 			createUser.setBoolean(6, user.getUserType() == UserType.CP);
 			
 			createUser.executeUpdate();
+			
+			ResultSet generatedKeys = createUser.getGeneratedKeys();
+			if(generatedKeys.next()) {
+				user.setId(generatedKeys.getInt(1));
+			}
+			else {
+				throw new DatabaseException("Resource could not be created");
+			}
+			
 		} catch (SQLIntegrityConstraintViolationException e) {
 			throw new UniqueFieldCollisionDatabaseException("Email is already in use");
 		}
@@ -104,5 +113,26 @@ public class UsersManager extends TableManager {
 			throw new DatabaseException(e.getMessage());
 		}
 		
+	}
+	
+	
+	/**
+	 * Deletes a user from the Users table
+	 * @param email the email of the user to delete
+	 * @throws DatabaseException the exception of a failed operation
+	 */
+	public void deleteUser(String email) throws DatabaseException{
+		String deleteUserQuery = "DELETE FROM users WHERE email = ?";
+		
+		try {
+			PreparedStatement deleteUser = dbConnection.prepareStatement(deleteUserQuery);
+			deleteUser.setString(1, email);
+			
+			if(deleteUser.executeUpdate() == 0) {
+				throw new ResourceNotFoundDatabaseException("No user with that email exists");
+			}
+		} catch (SQLException e) {
+			throw new DatabaseException(e.getMessage());
+		}
 	}
 }
