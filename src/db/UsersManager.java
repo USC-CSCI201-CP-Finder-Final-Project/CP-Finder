@@ -14,6 +14,12 @@ public class UsersManager extends TableManager {
 		super(dbConnection);
 	}
 	
+	/**
+	 * Attempts a login
+	 * @param email the email of the user
+	 * @param password the password of the user
+	 * @return a login response enum of the result of the attempt
+	 */
 	public LoginResponse logIn(String email, String password) {
 		User user;
 		try {
@@ -30,6 +36,12 @@ public class UsersManager extends TableManager {
 		}
 	}
 	
+	/**
+	 * Get a user
+	 * @param email the email of the user to get 
+	 * @return a user model of the requested user
+	 * @throws DatabaseException the exception of a failed operation
+	 */
 	public User getUser(String email) throws DatabaseException {
 		String getUserQuery = "SELECT user_id, name, email, password, preferred_name, picture_url, user_type FROM users "
 				+ "WHERE email = ? ";
@@ -58,6 +70,12 @@ public class UsersManager extends TableManager {
 		}
 	}
 	
+	
+	/**
+	 * Creates a user
+	 * @param user the model of the user to create
+	 * @throws DatabaseException the exception of a failed operation
+	 */
 	public void createUser(User user) throws DatabaseException{
 		String createUserQuery = "INSERT INTO users (name, email, password, preferred_name, picture_url, is_cp) "
 				+ "VALUES (?, ?, ?, ?, ?, ?);";
@@ -89,6 +107,12 @@ public class UsersManager extends TableManager {
 		}
 	}
 	
+	/**
+	 * Updates a user
+	 * @param email the email of the user to update
+	 * @param updatedUser a user model with the updated fields
+	 * @throws DatabaseException the exception of a failed operation
+	 */
 	public void updateUser(String email, User updatedUser) throws DatabaseException{
 		String updateUserQuery = "UPDATE users SET name = ?, email = ?, password = ?, preferred_name = ?, picture_url = ?, is_cp = ? "
 				+ "WHERE email = ?";
