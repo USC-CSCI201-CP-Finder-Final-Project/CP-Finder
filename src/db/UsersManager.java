@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.Statement;
 
 import models.User;
 import models.UserType;
@@ -81,7 +82,7 @@ public class UsersManager extends TableManager {
 				+ "VALUES (?, ?, ?, ?, ?, ?);";
 		
 		try {
-			PreparedStatement createUser = dbConnection.prepareStatement(createUserQuery);
+			PreparedStatement createUser = dbConnection.prepareStatement(createUserQuery, Statement.RETURN_GENERATED_KEYS);
 			createUser.setString(1, user.getName());
 			createUser.setString(2, user.getEmail());
 			createUser.setString(3, user.getPassword());
