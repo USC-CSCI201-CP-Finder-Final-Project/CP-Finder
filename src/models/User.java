@@ -30,6 +30,11 @@ public class User {
 		this.pictureURL = pictureURL;
 		this.userType = userType;
 	}
+	
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", preferredName="
+				+ preferredName + ", pictureURL=" + pictureURL + ", userType=" + userType + "]";
+	}
 
 	public int getId() {
 		return id;
