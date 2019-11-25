@@ -45,7 +45,7 @@ public class Register extends HttpServlet {
 		String password = request.getParameter("password");
 
 		String error = "";
-		String next = "/landingPage.jsp";
+		String next = "/MainPage";
 
 		if (firstname.equals("")) {
 			error += "First Name cannot be empty.";
@@ -92,12 +92,12 @@ public class Register extends HttpServlet {
 				if (size == 0) {
 					st.executeUpdate(
 							"INSERT into users (userName, password) values ('" + firstname + "','" + password + "')");
-					next = "/HomePage.jsp";
+					next = "/MainPage";
 				}
 
 				else {
 					error += "This username is already taken!";
-					next = "/register.jsp";
+					next = "/MainPage";
 				}
 			}
 

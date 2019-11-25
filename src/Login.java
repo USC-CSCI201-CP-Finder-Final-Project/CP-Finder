@@ -42,7 +42,7 @@ public class Login extends HttpServlet {
 		String password = request.getParameter("password");
 
 		String error = "";
-		String next = "/landingPage.jsp";
+		String next = "/MainPage";
 
 		if (email.equals("")) {
 			error += "Please Input a valid email";
@@ -74,7 +74,7 @@ public class Login extends HttpServlet {
 
 				if (size != 0) {
 					if (rs.getNString("password").equals(password)) {
-						next = "/landingPage.jsp";
+						next = "/MainPage";
 					} else {
 						error += "Incorrect Password!";
 						next = "/login.jsp";
