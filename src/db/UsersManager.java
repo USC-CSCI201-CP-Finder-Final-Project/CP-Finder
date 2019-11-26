@@ -44,7 +44,7 @@ public class UsersManager extends TableManager {
 	 * @throws DatabaseException the exception of a failed operation
 	 */
 	public User getUser(String email) throws DatabaseException {
-		String getUserQuery = "SELECT user_id, name, email, password, preferred_name, picture_url, user_type FROM users "
+		String getUserQuery = "SELECT user_id, name, email, password, preferred_name, picture_url, is_cp FROM users "
 				+ "WHERE email = ? ";
 		
 		try {
