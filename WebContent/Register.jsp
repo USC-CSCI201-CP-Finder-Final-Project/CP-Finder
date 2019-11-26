@@ -22,9 +22,9 @@
 		<input type="password" name="password" placeholder="Password" required>
 		<div class="radios">
 			<p>Registering As</p> <label> <input type="radio"
-				name="bookAttribute" value="intitle" onclick="document.getElementById('dropDownMenu').style.display = 'flex'"required> CP
-			</label> <label> <input type="radio" name="bookAttribute"
-				value="inauthor" onclick="document.getElementById('dropDownMenu').style.display = 'none'"required> Student
+				name="isCP" value="CP" onclick="document.getElementById('dropDownMenu').style.display = 'flex'"required> CP
+			</label> <label> <input type="radio" name="isCP"
+				value="student" onclick="document.getElementById('dropDownMenu').style.display = 'none'"required> Student
 			</label>
 		</div>
 		<div class="radios" id="dropDownMenu">
