@@ -16,6 +16,7 @@ public class DatabaseConnectionCreator {
 					"&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=" + username +
 					"&password=" + password);
 		} catch (SQLException e) {
+			System.out.println(e.getMessage());
 			return null;
 		}
 	}
