@@ -13,7 +13,7 @@
 	<h2>I'll find you and kill you!</h2>
 	<a href="login.jsp">Sign In</a>
 	<a href="Register.jsp">Sign Up</a>
-	<a>Continue as Guest</a>
+	<a href="MainPage.jsp">Continue as Guest</a>
 </body>
 </html>
 boolean allXs = true;
