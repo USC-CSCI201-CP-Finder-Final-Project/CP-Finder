@@ -20,7 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/Login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public static final String CREDENTIALS_STRING = "jdbc:mysql://google/bookworm?cloudSqlInstance=carbon-shadow-255423:us-central1:assignment3&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=agert16&password=Gertel1998!!";
+	public static final String CREDENTIALS_STRING = "jdbc:mysql://google/cpfinderca?cloudSqlInstance=cpfinder-259622:us-west2:db1&socke"
+			+ "tFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root" +
+		"&password=uscCs201!";
 	static Connection connection = null;
 
 	/**

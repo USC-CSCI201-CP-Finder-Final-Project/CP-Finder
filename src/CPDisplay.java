@@ -1,34 +1,22 @@
 import java.sql.*;
 
 public class CPDisplay {
-	private String course;
-	private String name;
-	private Blob image;
-	private byte[ ] imgData;
-	private int locationID;
+	String course;
+	int courseID;
+	String name;
+	int userID;
+	Blob image;
+	byte[ ] imgData;
+	String location;
+	String status;
 	
-	public CPDisplay(String course, String name, Blob image, byte[ ]
-			imgData, int locationID) {
+	public CPDisplay(String course, int courseID, String name, 
+			int userID, String location, String status) {
 		this.course = course;
+		this.courseID = courseID;
 		this.name = name;
-		this.image = image;
-		this.imgData = imgData;
-		this.locationID = locationID;
-	}
-	
-	public String getCourse() {
-		return course;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public byte[ ] getImage() {
-		return imgData;
-	}
-	
-	public int getLocation() {
-		return locationID;
+		this.userID = userID;
+		this.location = location;
+		this.status = status;
 	}
 }
