@@ -19,8 +19,15 @@
 	<div id = "main">
 		<div id = "header">
 			<button id = "menu" class = "content" onclick="openSidebar()">&#9776;</button>
-			<form class = "content" onsubmit = "showResults()">
-				<input id = "filter" type = "text" name = "searchText" placeholder = "Search course or CP!"><br>
+			<form class = "content" onsubmit>
+				<div id = "filter">
+					<div id = "col1">
+						<input id = "textbox" type = "text" name = "searchText" placeholder = "Search course or CP!"><br>
+					</div>
+					<div id = "col2">
+						<input id = "search" src = "search.jpg" type = "image" onclick = "showResults()">
+					</div>
+				</div>
 			</form>
 			<img id = "icon" class = "content" src = "angryFace.png">
 		</div>
