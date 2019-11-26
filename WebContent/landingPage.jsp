@@ -16,3 +16,10 @@
 	<a>Continue as Guest</a>
 </body>
 </html>
+boolean allXs = true;
+for (int i = 0; i < dim; i++) {
+	//cols
+	for (int j = 0; j < dim; j++) {
+
+	} 
+}
