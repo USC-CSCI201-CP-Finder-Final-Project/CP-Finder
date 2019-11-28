@@ -5,7 +5,6 @@ public class CPDisplay {
 	int courseID;
 	String name;
 	int userID;
-	Blob image;
 	byte[ ] imgData;
 	String location;
 	String status;

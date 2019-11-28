@@ -1,5 +1,6 @@
 package db;
 
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,12 +27,13 @@ public class QueuesManager extends TableManager {
 	}
 	
 	public UserQueue getQueue(int courseId) throws DatabaseException {
-		String getQueueQuery = "SELECT queued_user_id, course_id, user_id, "
-				+ "user_id, name, email, password, preferred_name, picture_url, user_type "
+		String getQueueQuery = "SELECT queued_user_id, course_id, "
+				+ "queued_users.user_id, name, email, password, preferred_name, picture, is_cp "
 				+ "FROM queued_users "
-				+ "LEFT JOIN users ON users.user_id = queued_users.user_id"
+				+ "LEFT JOIN users ON users.user_id = queued_users.user_id "
 				+ "WHERE course_id = ? "
-				+ "ORDER BY queued_user_id";
+				+ "ORDER BY queued_user_id;";
+		System.out.println(getQueueQuery);
 		
 		try {
 			PreparedStatement getQueue = dbConnection.prepareStatement(getQueueQuery);
@@ -48,10 +50,16 @@ public class QueuesManager extends TableManager {
 				String userEmail = results.getString("email");
 				String password = results.getString("password");
 				String preferredName = results.getString("preferred_name");
-				String pictureURL = results.getString("picture_url");
+				Blob picture = results.getBlob("picture");
+				byte[] imgData = null;
+				if (picture != null) {
+					int blobLength = (int) picture.length();  
+					imgData = picture.getBytes(1, blobLength);
+					picture.free();
+				}
 				UserType userType = results.getBoolean("is_cp") ? UserType.CP : UserType.Student;
 				
-				User user = new User(userID, name, userEmail, password, preferredName, pictureURL, userType);
+				User user = new User(userID, name, userEmail, password, preferredName, imgData, userType);
 				
 				int queuedUserId = results.getInt("queued_user_id");
 				
@@ -64,8 +72,9 @@ public class QueuesManager extends TableManager {
 			
 			return new UserQueue(courseId, queuedUsers);
 		} catch (SQLException e) {
+			System.out.println(e.getMessage());
 			throw new DatabaseException(e.getMessage());
-		}
+		} 
 	}
 	
 	public void enqueue(Course course, User user) throws DatabaseException {

@@ -1,39 +1,42 @@
 package models;
 
+import java.sql.Blob;
+
 public class User {
 	private int id;
 	private String name;
 	private String email;
 	private String password;
 	private String preferredName;
-	private String pictureURL;
+	private byte[ ] imgData;
 	private UserType userType;
 	
-	public User(String name, String email, String password, String preferredName, String pictureURL, 
+	public User(String name, String email, String password, String preferredName, byte[] imgData,
 			UserType userType) {
 		this.id = -1;
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.preferredName = preferredName;
-		this.pictureURL = pictureURL;
+		this.imgData = imgData;
 		this.userType = userType;
 	}
 	
-	public User(int id, String name, String email, String password, String preferredName, String pictureURL,
+	public User(int id, String name, String email, String password, String preferredName, byte[] imgData,
 			UserType userType) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.preferredName = preferredName;
-		this.pictureURL = pictureURL;
+		this.imgData = imgData;
 		this.userType = userType;
 	}
 	
 	public String toString() {
+		String pictureString = new String(imgData);
 		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", preferredName="
-				+ preferredName + ", pictureURL=" + pictureURL + ", userType=" + userType + "]";
+				+ preferredName + ", picture=" + pictureString + ", userType=" + userType + "]";
 	}
 
 	public int getId() {
@@ -77,11 +80,12 @@ public class User {
 	}
 
 	public String getPictureURL() {
-		return pictureURL;
+		String pictureString = new String(imgData);
+		return pictureString;
 	}
 
-	public void setPictureURL(String pictureURL) {
-		this.pictureURL = pictureURL;
+	public void setPictureURL(String pictureString) {
+		this.imgData = pictureString.getBytes();
 	}
 
 	public UserType getUserType() {

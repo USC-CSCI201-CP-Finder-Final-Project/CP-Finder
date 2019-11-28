@@ -122,7 +122,22 @@ public class MainPage extends HttpServlet {
 			dispatch.forward(request, response);
     	} catch (SQLException | ClassNotFoundException sqle) {
     		System.out.println(sqle.getMessage());
-    	}
+    	} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (st != null) {
+					st.close();
+				}
+				if (connection != null) {
+					// conn.close();
+				}
+			} catch (SQLException sqle) {
+				System.out.println(sqle.getMessage());
+			}
+		}
+    	
     }
 
 	/**

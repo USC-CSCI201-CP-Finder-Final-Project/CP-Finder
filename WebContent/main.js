@@ -11,9 +11,6 @@ function handleScroll() {
 	}
 }
 
-function showResults() {
-	
-}
 
 function closeSidebar() {
 	document.getElementById("header").style.gridTemplateColumns = "10% 80% 20%";

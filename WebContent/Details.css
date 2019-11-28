@@ -79,6 +79,12 @@ blockquote, q {
 	text-shadow: 1px 1px 5px black;
 }
 
+#courseName {
+	font-size: 200%;
+	font-weight: bold;
+	color: white;
+}
+
 #results {
 	display: block;
 }
@@ -87,49 +93,6 @@ blockquote, q {
 	height: 50%;
 	text-align: center;
 	justify-content: end;
-}
-
-.container {
-	padding: 15px;
-	display: grid;
-	grid-template-columns: 15% 60% 25%;
-	align-items: center;
-}
-
-a {
-	object-fit: cover;
-}
-
-.img {
-	align-self: center;
-	padding: 30px;
-	width: 80%;
-    height: 80%;
-    object-fit: cover;
-}
-
-.status {
-	padding: 20%;
-	align-self: start;
-}
-
-h2 {
-	font-weight: bold;
-	font-size: 200%;
-	padding: 1%;
-	padding-left: 3%;
-}
-
-h3 {
-	font-size: 150%;
-	padding: 1%;
-	padding-left: 3%;
-}
-
-p {
-	font-size: 100%;
-	padding: 1%;
-	padding-left: 3%;
 }
 
 .sticky {
@@ -181,37 +144,4 @@ p {
 
 .close:hover {
 	text-shadow: 1px 1px 5px #BD2031;
-}
-
-#filter {
-	padding: 10px;
-	width: 95%;
-	border-style: none;
-	border-radius: 25px;
-	background-color:#DDD;
-	display: grid;
-	grid-template-columns: 80% 20%;
-	color: #BD2031;
-	align-items: center;
-}
-
-#search {
-	float: right;
-	padding-right: 15px;
-	width: 12%;
-	height: 12%;
-}
-
-#textbox {
-	width: 90%;
-	border-style: none;
-	background-color:#DDD;
-	color: #BD2031;
-	font-size: 120%;
-	background-color: none;
-}
-
-::placeholder
-{
-	color: #BD2031;
 }

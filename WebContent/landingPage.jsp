@@ -13,13 +13,6 @@
 	<h2>I'll find you and kill you!</h2>
 	<a href="login.jsp">Sign In</a>
 	<a href="Register.jsp">Sign Up</a>
-	<a href="MainPage.jsp">Continue as Guest</a>
+	<a>Continue as Guest</a>
 </body>
 </html>
-boolean allXs = true;
-for (int i = 0; i < dim; i++) {
-	//cols
-	for (int j = 0; j < dim; j++) {
-
-	} 
-}
