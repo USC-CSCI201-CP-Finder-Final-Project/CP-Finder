@@ -1,7 +1,5 @@
 package models;
 
-import java.sql.Blob;
-
 public class User {
 	private int id;
 	private String name;
@@ -79,13 +77,12 @@ public class User {
 		this.preferredName = preferredName;
 	}
 
-	public String getPictureURL() {
-		String pictureString = new String(imgData);
-		return pictureString;
+	public byte[] getImgData() {
+		return imgData;
 	}
 
-	public void setPictureURL(String pictureString) {
-		this.imgData = pictureString.getBytes();
+	public void setPictureURL(byte[] imgData) {
+		this.imgData = imgData;
 	}
 
 	public UserType getUserType() {

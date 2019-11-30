@@ -1,5 +1,7 @@
 package db;
 
+import java.io.ByteArrayInputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,7 +46,7 @@ public class UsersManager extends TableManager {
 	 * @throws DatabaseException the exception of a failed operation
 	 */
 	public User getUser(String email) throws DatabaseException {
-		String getUserQuery = "SELECT user_id, name, email, password, preferred_name, picture_url, is_cp FROM users "
+		String getUserQuery = "SELECT user_id, name, email, password, preferred_name, is_cp, picture FROM users "
 				+ "WHERE email = ? ";
 		
 		try {
@@ -59,10 +61,10 @@ public class UsersManager extends TableManager {
 				String userEmail = results.getString("email");
 				String password = results.getString("password");
 				String preferredName = results.getString("preferred_name");
-				String pictureURL = results.getString("picture_url");
+				Blob picture = results.getBlob("picture");
 				UserType userType = results.getBoolean("is_cp") ? UserType.CP : UserType.Student;
 				
-				return new User(userID, name, userEmail, password, preferredName, pictureURL, userType);
+				return new User(userID, name, userEmail, password, preferredName, picture.getBytes(1, (int) picture.length()), userType);
 			}
 			
 			throw new ResourceNotFoundDatabaseException("No user found with that email");
@@ -78,8 +80,8 @@ public class UsersManager extends TableManager {
 	 * @throws DatabaseException the exception of a failed operation
 	 */
 	public void createUser(User user) throws DatabaseException{
-		String createUserQuery = "INSERT INTO users (name, email, password, preferred_name, picture_url, is_cp) "
-				+ "VALUES (?, ?, ?, ?, ?, ?);";
+		String createUserQuery = "INSERT INTO users (name, email, password, preferred_name, picture, is_cp) "
+				+ "VALUES (?, ?, ?, ?, ?);";
 		
 		try {
 			PreparedStatement createUser = dbConnection.prepareStatement(createUserQuery, Statement.RETURN_GENERATED_KEYS);
@@ -87,7 +89,7 @@ public class UsersManager extends TableManager {
 			createUser.setString(2, user.getEmail());
 			createUser.setString(3, user.getPassword());
 			createUser.setString(4, user.getPreferredName());
-			createUser.setString(5, user.getPictureURL());
+			createUser.setBlob(5, new ByteArrayInputStream(user.getImgData()));
 			createUser.setBoolean(6, user.getUserType() == UserType.CP);
 			
 			createUser.executeUpdate();
@@ -115,7 +117,7 @@ public class UsersManager extends TableManager {
 	 * @throws DatabaseException the exception of a failed operation
 	 */
 	public void updateUser(String email, User updatedUser) throws DatabaseException{
-		String updateUserQuery = "UPDATE users SET name = ?, email = ?, password = ?, preferred_name = ?, picture_url = ?, is_cp = ? "
+		String updateUserQuery = "UPDATE users SET name = ?, email = ?, password = ?, preferred_name = ?, picture = ?, is_cp = ? "
 				+ "WHERE email = ?";
 		
 		try {
@@ -124,7 +126,7 @@ public class UsersManager extends TableManager {
 			updateUser.setString(2, updatedUser.getEmail());
 			updateUser.setString(3, updatedUser.getPassword());
 			updateUser.setString(4, updatedUser.getPreferredName());
-			updateUser.setString(5, updatedUser.getPictureURL());
+			updateUser.setBlob(5, new ByteArrayInputStream(updatedUser.getImgData()));
 			updateUser.setBoolean(6, updatedUser.getUserType() == UserType.CP);
 			updateUser.setString(7, updatedUser.getEmail());
 			
