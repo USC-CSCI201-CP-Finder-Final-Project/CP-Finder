@@ -21,8 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public static final String CREDENTIALS_STRING = "jdbc:mysql://google/cpfinder?cloudSqlInstance=cpfinder-259622:us-west2:db1&socke"
-			+ "tFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root" + "&password=uscCs201!";
+			+ "tFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root" +
+			"&password=uscCs201!";
 	static Connection connection = null;
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -77,16 +79,57 @@ public class Register extends HttpServlet {
 		}
 		
 		if ("CP".equals(isCP)) {
-			userType = UserType.CP;
+			cp = 1;
 		}
 		
 		else if ("student".equals(isCP)) {
-			userType = UserType.Student;
+			student = 1;
 		}
 		
-		if (error.equals("")) {
-			User user = new User(firstname + " " + lastname, email, password, preferredname, new byte[100], userType);
+		if(cp==1) {
+			user = UserType.student
 		}
+
+		if (error.equals("")) {
+
+			PreparedStatement st = null;
+			ResultSet rs = null;
+
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				connection = DriverManager.getConnection(CREDENTIALS_STRING);
+				st = connection.prepareStatement("SELECT * FROM users where preferred_name='" + preferredname + "'");
+				rs = st.executeQuery();
+
+				int size = 0;
+				if (rs != null) {
+					rs.last();
+					size = rs.getRow();
+				}
+
+				if (size == 0) {
+					st.executeUpdate(
+							"INSERT into users (name, email, password, preferred_name) values ('" + firstname + lastname + "','" + email + "','" + password + "','" + preferredname + "')");
+					next = "/MainPage.jsp";
+				}
+
+				else {
+					error += "This username is already taken!";
+					next = "/Register.jsp";
+				}
+			}
+
+			catch (SQLException | ClassNotFoundException sqle) {
+				System.out.println(sqle.getMessage());
+			}
+
+			request.setAttribute("error", error);
+			if (error.equals("")) {
+				request.setAttribute("successful", true);
+				Cookie user = new Cookie("user", email);
+				user.setMaxAge(60 * 60 * 24);
+				response.addCookie(user);
+			}
 
 			RequestDispatcher dispatch = getServletContext().getRequestDispatcher(next);
 
@@ -97,6 +140,8 @@ public class Register extends HttpServlet {
 			} catch (ServletException e) {
 				e.printStackTrace();
 			}
-	}
 
+		}
+		User user = new User(firstname + " " + lastname, email, password, preferredname, new byte[100], )
+	}
 }

@@ -54,36 +54,66 @@ public class Login extends HttpServlet {
 			next = "/login.jsp";
 		}
 		if (password.equals("")) {
-			error += "Password cannot be empty.";
+			error += "Password cannot be empy.";
 			next = "/login.jsp";
 		}
 		if (error.equals("")) {
+			PreparedStatement st = null;
+			ResultSet rs = null;
+
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				connection = DriverManager.getConnection(CREDENTIALS_STRING);
+				st = connection.prepareStatement("SELECT * FROM users where email='" + email + "'");
+				rs = st.executeQuery();
+
+				int size = 0;
+				if (rs != null) {
+					rs.last();
+					size = rs.getRow();
+				}
+
+				if (size != 0) {
+					if (rs.getNString("password").equals(password)) {
+						next = "/MainPage.jsp";
+					} else {
+						error += "Incorrect Password!";
+						next = "/login.jsp";
+					}
+				}
+
+				else {
+					error += "This username doesn't exist!";
+					next = "/login.jsp";
+				}
+			}
+
+			catch (SQLException | ClassNotFoundException sqle) {
+				System.out.println(sqle.getMessage());
+			}
 			LoginResponse loginResponse = usersManager.logIn(email, password);
 
 			switch (loginResponse) {
 			case AccountDoesNotExist:
-				error += "There is no account with that email.";
-				next = "/login.jsp";
+				System.out.println("There is no account with that email");
 				break;
 			case IncorrectPassword:
-				error += "Incorrect password!";
-				next = "/login.jsp";
+				System.out.println("Incorrect password!");
 				break;
 			case ServerError:
-				error += "Server error, please try again later";
-				next = "/login.jsp";
+				System.out.println("Server error, please try again later");
 				break;
 			case Success:
-				//set session attribute of user
-				//set it equal to some userJson object
-				User user = User.getUser(email);
-				Gson gson = new Gson();
-				String userJson = gson.toJson(user);
-				session.setAttribute("user", userJson);
-				error += "Correct! You are now logged in";
-				next = "/MainPage.jsp";
+				System.out.println("Correct! You are now logged in");
 				break;
 			}
+		}
+		request.setAttribute("error", error);
+		if (error.equals("")) {
+			request.setAttribute("successful", true);
+			Cookie user = new Cookie("user", email);
+			user.setMaxAge(60 * 60 * 24);
+			response.addCookie(user);
 		}
 
 		RequestDispatcher dispatch = getServletContext().getRequestDispatcher(next);
@@ -97,4 +127,5 @@ public class Login extends HttpServlet {
 		}
 
 	}
+
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="db.*, models.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,6 +35,11 @@
 	var course = <%= session.getAttribute("course") %>;
 	var queue = queueObj.queuedUsers.list;
 	
+	<% 
+	Course c = (Course)session.getAttribute("course");
+	QueueClient qc = new QueueClient("localhost", 6790, c.getId());
+	%>
+	
 	function renderQueue() {
 		$("#courseName").append(course.title);
 		
@@ -54,6 +60,20 @@
 	}
 	
 	window.onload = renderQueue();
+	
+	<%
+	while (true){
+		if(qc.newQueue == true){
+			qc.newQueue = false;%>
+			changeQueue();
+		<%}
+	}
+	%>
+	
+	function changeQueue(){
+		var lines = <%= qc.code%>
+		document.getElementById("queue").innerHTML = lines;
+	}
 	
 </script>
 <script type="text/javascript" src="main.js"></script>
