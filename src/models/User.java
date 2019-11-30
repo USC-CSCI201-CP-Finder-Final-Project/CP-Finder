@@ -34,9 +34,9 @@ public class User {
 	}
 	
 	public String toString() {
-		String pictureString = new String(imgData);
+		//String pictureString = new String(imgData);
 		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", preferredName="
-				+ preferredName + ", picture=" + pictureString + ", userType=" + userType + "]";
+				+ preferredName + ", userType=" + userType + "]";
 	}
 
 	public int getId() {
