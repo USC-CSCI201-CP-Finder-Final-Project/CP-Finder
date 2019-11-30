@@ -36,20 +36,21 @@
 </body>
 <script>
 
-	var user = <%= session.getAttribute("user") %>;
-	var data = <%= session.getAttribute("data") %>;
+var data = <%= session.getAttribute("sessions") %>;
+var sessions = data.list;
 
-	function renderData() {
-		for(i = 0; i < data.length; i++) {
-			$("#results").append('<div id = "' + i + '"'+ '><div class = "container"><a href="\DetailsServ?id='+
-				data[i].courseID+'"><img class = "img" src="profile.png"/></a>'
-				+'<div class = "text"><h2>'+data[i].course+'</h2>'
-				+'<h3>'+data[i].name+'</h3>'
-				+'<p>Currently sitting in: '+data[i].location+'</p>'
-				+'</div><p class = "status">Status: '+data[i].status+'<p></div>'
-				+"<hr style='border-top: dotted 1px;' /></div>");
-		}
+function renderData() {
+	for(i = 0; i < sessions.length; i++) {
+		$("#results").append('<div id = "' + i + '"'+ '><div class = "container"><a href="\DetailsServ?id='+
+			sessions[i].course.id+'"><img class = "img" src="profile.png"/></a>'
+			+'<div class = "text"><h2>'+sessions[i].course.title+'</h2>'
+			+'<h3>'+sessions[i].CP.preferredName+'</h3>'
+			+'<p>Session started: '+sessions[i].createdAt+'</p>'
+			+'<p>Location: SAL Open Lab - '+sessions[i].location.name+'</p>'
+			+'</div><p class = "status">Status: '+sessions[i].status.name+'<p></div>'
+			+"<hr style='border-top: dotted 1px;' /></div>");
 	}
+}
 	
 	$( "#search" ).click(function() {
 		var searchQuery = document.getElementById("textbox").value.toLowerCase();
