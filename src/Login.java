@@ -76,9 +76,9 @@ public class Login extends HttpServlet {
 			case Success:
 				//set session attribute of user
 				//set it equal to some userJson object
-				User user = User.getUser(email);
-				Gson gson = new Gson();
-				String userJson = gson.toJson(user);
+				User user = usersManager.getUser(email);
+				/*Gson gson = new Gson();
+				String userJson = gson.toJson(user);*/
 				session.setAttribute("user", userJson);
 				error += "Correct! You are now logged in";
 				next = "/MainPage.jsp";
