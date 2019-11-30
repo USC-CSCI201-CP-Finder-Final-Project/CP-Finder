@@ -20,9 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/Login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public static final String CREDENTIALS_STRING = "jdbc:mysql://google/cpfinderca?cloudSqlInstance=cpfinder-259622:us-west2:db1&socke"
-			+ "tFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root" +
-		"&password=uscCs201!";
+	public static final String CREDENTIALS_STRING = "jdbc:mysql://google/cpfinder?cloudSqlInstance=cpfinder-259622:us-west2:db1&socke"
+			+ "tFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root" + "&password=uscCs201!";
 	static Connection connection = null;
 
 	/**
@@ -44,7 +43,7 @@ public class Login extends HttpServlet {
 		String password = request.getParameter("password");
 
 		String error = "";
-		String next = "/MainPage";
+		String next = "/landingPage.jsp";
 
 		if (email.equals("")) {
 			error += "Please Input a valid email";
@@ -55,55 +54,39 @@ public class Login extends HttpServlet {
 			next = "/login.jsp";
 		}
 		if (password.equals("")) {
-			error += "Password cannot be empy.";
+			error += "Password cannot be empty.";
 			next = "/login.jsp";
 		}
 		if (error.equals("")) {
-			PreparedStatement st = null;
-			ResultSet rs = null;
+			LoginResponse loginResponse = usersManager.logIn(email, password);
 
-			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				connection = DriverManager.getConnection(CREDENTIALS_STRING);
-				st = connection.prepareStatement("SELECT * FROM users where username='" + email + "'");
-				rs = st.executeQuery();
-
-				int size = 0;
-				if (rs != null) {
-					rs.last();
-					size = rs.getRow();
-				}
-
-				if (size != 0) {
-					if (rs.getNString("password").equals(password)) {
-						next = "/MainPage";
-					} else {
-						error += "Incorrect Password!";
-						next = "/login.jsp";
-					}
-				}
-
-				else {
-					error += "This username doesn't exist!";
-					next = "/login.jsp";
-				}
-			}
-
-			catch (SQLException | ClassNotFoundException sqle) {
-				System.out.println(sqle.getMessage());
+			switch (loginResponse) {
+			case AccountDoesNotExist:
+				error += "There is no account with that email.";
+				next = "/login.jsp";
+				break;
+			case IncorrectPassword:
+				error += "Incorrect password!";
+				next = "/login.jsp";
+				break;
+			case ServerError:
+				error += "Server error, please try again later";
+				next = "/login.jsp";
+				break;
+			case Success:
+				//set session attribute of user
+				//set it equal to some userJson object
+				Gson gson = new Gson();
+				String userJson = gson.toJson(user);
+				session.setAttribute("user", userJson);
+				error += "Correct! You are now logged in";
+				next = "/MainPage.jsp";
+				break;
 			}
 		}
-		request.setAttribute("error", error);
-		if(error.equals(""))
-		{
-			request.setAttribute("successful", true);
-			Cookie user = new Cookie("user", email);
-			user.setMaxAge(60*60*24);
-			response.addCookie(user);
-		}
-		
+
 		RequestDispatcher dispatch = getServletContext().getRequestDispatcher(next);
-		
+
 		try {
 			dispatch.forward(request, response);
 		} catch (IOException e) {
@@ -113,5 +96,4 @@ public class Login extends HttpServlet {
 		}
 
 	}
-
 }
