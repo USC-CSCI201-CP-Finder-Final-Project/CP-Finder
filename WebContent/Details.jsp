@@ -14,7 +14,7 @@
 	  <button class="close navbar" onclick="closeSidebar()">Close &times;</button>
 	  <a href="#" class="links navbar">Profile</a>
 	  <a href="landingPage.jsp" class="links navbar">Sign Out</a>
-	  <a href="#" class="links navbar">Link 3</a>
+	  <a href="#" class="links navbar">Settings</a>
 	</div>
 	
 	<div id = "main">
@@ -67,11 +67,10 @@
 			qc.newQueue = false;%>
 			changeQueue();
 		<%}
-	}
-	%>
+	}%>
 	
 	function changeQueue(){
-		var lines = <%= qc.code%>
+		var lines = <%= qc.code%>;
 		document.getElementById("queue").innerHTML = lines;
 	}
 	

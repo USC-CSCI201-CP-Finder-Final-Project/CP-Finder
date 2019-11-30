@@ -13,7 +13,7 @@
 	  <button class="close navbar" onclick="closeSidebar()">Close &times;</button>
 	  <a href="#" class="links navbar">Profile</a>
 	  <a href="landingPage.jsp" class="links navbar">Sign Out</a>
-	  <a href="#" class="links navbar">Link 3</a>
+	  <a href="#" class="links navbar">Settings</a>
 	</div>
 	<div id = "main">
 		<div id = "header">
@@ -31,6 +31,7 @@
 			<img id = "icon" class = "content" src = "angryFace.png">
 		</div>
 		<div id = "results">
+			<h2>Active Sessions</h2>
 		</div>
 	</div>
 </body>
@@ -44,7 +45,7 @@ function renderData() {
 		$("#results").append('<div id = "' + i + '"'+ '><div class = "container"><a href="\DetailsServ?id='+
 			sessions[i].course.id+'"><img class = "img" src="profile.png"/></a>'
 			+'<div class = "text"><h2>'+sessions[i].course.title+'</h2>'
-			+'<h3>'+sessions[i].CP.preferredName+'</h3>'
+			+'<h3>CP on Duty: '+sessions[i].CP.preferredName+'</h3>'
 			+'<p>Session started: '+sessions[i].createdAt+'</p>'
 			+'<p>Location: SAL Open Lab - '+sessions[i].location.name+'</p>'
 			+'</div><p class = "status">Status: '+sessions[i].status.name+'<p></div>'
