@@ -22,20 +22,10 @@
 		<input type="password" name="password" placeholder="Password" required>
 		<div class="radios">
 			<p>Registering As</p> <label> <input type="radio"
-				name="bookAttribute" value="intitle" onclick="document.getElementById('dropDownMenu').style.display = 'flex'"required> CP
-			</label> <label> <input type="radio" name="bookAttribute"
-				value="inauthor" onclick="document.getElementById('dropDownMenu').style.display = 'none'"required> Student
+				name="isCP" value="CP" onclick="document.getElementById('dropDownMenu').style.display = 'flex'"required> CP
+			</label> <label> <input type="radio" name="isCP"
+				value="student" onclick="document.getElementById('dropDownMenu').style.display = 'none'"required> Student
 			</label>
-		</div>
-		<div class="radios" id="dropDownMenu">
-			<p>Assigned To</p><select name="classSelect">
-				<option value="201">CSCI 201</option>
-				<option value="104">CSCI 104</option>
-				<option value="103">CSCI 103</option>
-				<option value="102">CSCI 102</option>
-				<option value="170">CSCI 170</option>
-				<option value="270">CSCI 270</option>
-			</select>
 		</div>
 		<button type="submit" class="button">Sign Up</button>
 		<a href="login.jsp">Already have an account?</a>
