@@ -20,9 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/Register")
 public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public static final String CREDENTIALS_STRING = "jdbc:mysql://google/bookworm?cloudSqlInstance=carbon-shadow-255423:us-central1:assignment3&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=uscCs201!";
+	public static final String CREDENTIALS_STRING = "jdbc:mysql://google/cpfinder?cloudSqlInstance=cpfinder-259622:us-west2:db1&socke"
+			+ "tFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root" + "&password=uscCs201!";
 	static Connection connection = null;
-
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -43,9 +43,13 @@ public class Register extends HttpServlet {
 		String preferredname = request.getParameter("pName");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
+		String isCP = request.getParameter("isCP");
+		int cp = 0;
+		int student = 0;
+		int is_CP = 0;
 
 		String error = "";
-		String next = "/MainPage";
+		String next = "/landingPage.jsp";
 
 		if (firstname.equals("")) {
 			error += "First Name cannot be empty.";
@@ -71,47 +75,18 @@ public class Register extends HttpServlet {
 			error += "Password cannot be left empty.";
 			next = "/Register.jsp";
 		}
-
+		
+		if ("CP".equals(isCP)) {
+			userType = UserType.CP;
+		}
+		
+		else if ("student".equals(isCP)) {
+			userType = UserType.Student;
+		}
+		
 		if (error.equals("")) {
-
-			PreparedStatement st = null;
-			ResultSet rs = null;
-
-			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				connection = DriverManager.getConnection(CREDENTIALS_STRING);
-				st = connection.prepareStatement("SELECT * FROM users where username='" + firstname + "'");
-				rs = st.executeQuery();
-
-				int size = 0;
-				if (rs != null) {
-					rs.last();
-					size = rs.getRow();
-				}
-
-				if (size == 0) {
-					st.executeUpdate(
-							"INSERT into users (userName, password) values ('" + firstname + "','" + password + "')");
-					next = "/MainPage";
-				}
-
-				else {
-					error += "This username is already taken!";
-					next = "/MainPage";
-				}
-			}
-
-			catch (SQLException | ClassNotFoundException sqle) {
-				System.out.println(sqle.getMessage());
-			}
-
-			request.setAttribute("error", error);
-			if (error.equals("")) {
-				request.setAttribute("successful", true);
-				Cookie user = new Cookie("user", email);
-				user.setMaxAge(60 * 60 * 24);
-				response.addCookie(user);
-			}
+			User user = new User(firstname + " " + lastname, email, password, preferredname, new byte[100], userType);
+		}
 
 			RequestDispatcher dispatch = getServletContext().getRequestDispatcher(next);
 
@@ -122,7 +97,6 @@ public class Register extends HttpServlet {
 			} catch (ServletException e) {
 				e.printStackTrace();
 			}
-
-		}
 	}
+
 }
