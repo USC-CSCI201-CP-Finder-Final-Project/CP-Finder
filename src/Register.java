@@ -44,9 +44,7 @@ public class Register extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		String isCP = request.getParameter("isCP");
-		int cp = 0;
-		int student = 0;
-		int is_CP = 0;
+		UserType userType;
 
 		String error = "";
 		String next = "/landingPage.jsp";
