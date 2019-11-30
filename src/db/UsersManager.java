@@ -81,7 +81,7 @@ public class UsersManager extends TableManager {
 	 */
 	public void createUser(User user) throws DatabaseException{
 		String createUserQuery = "INSERT INTO users (name, email, password, preferred_name, picture, is_cp) "
-				+ "VALUES (?, ?, ?, ?, ?);";
+				+ "VALUES (?, ?, ?, ?, ?, ?);";
 		
 		try {
 			PreparedStatement createUser = dbConnection.prepareStatement(createUserQuery, Statement.RETURN_GENERATED_KEYS);
