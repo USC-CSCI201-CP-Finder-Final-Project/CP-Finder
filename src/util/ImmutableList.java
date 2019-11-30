@@ -13,6 +13,10 @@ public class ImmutableList<T> implements Iterable<T>{
 		}
 	}
 
+	public int size() {
+		return list.size();
+	}
+	
 	public Iterator<T> iterator() {
 		return list.iterator();
 	}
