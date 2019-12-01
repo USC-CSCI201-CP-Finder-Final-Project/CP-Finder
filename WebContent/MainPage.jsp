@@ -36,22 +36,24 @@
 </body>
 <script>
 
-var data = <%= session.getAttribute("sessions") %>;
-console.log(data);
-var sessions = data.list;
-
-function renderData() {
-	for(i = 0; i < sessions.length; i++) {
-		$("#results").append('<div id = "' + i + '"'+ '><div class = "container"><a href="\DetailsServ?id='+
-			sessions[i].course.id+'"><img class = "img" src="profile.png"/></a>'
-			+'<div class = "text"><h2>'+sessions[i].course.title+'</h2>'
-			+'<h3>CP on Duty: '+sessions[i].CP.preferredName+'</h3>'
-			+'<p>Session started: '+sessions[i].createdAt+'</p>'
-			+'<p>Location: SAL Open Lab - '+sessions[i].location.name+'</p>'
-			+'</div><p class = "status">Status: '+sessions[i].status.name+'<p></div>'
-			+"<hr style='border-top: dotted 1px;' /></div>");
+	var data = <%= session.getAttribute("sessions") %>;
+	console.log(data);
+	var sessions = data.list;	
+	var webServiceUrl = "localhost:8080/CP-Finder/"; 
+	
+	function renderData() {
+		for(i = 0; i < sessions.length; i++) {
+			$("#results").append('<div id = "' + i + '"'+ '><div class = "container"><a href="\DetailsServ?id='+
+				/*  sessions[i].course.id+'"><img class = "img" src="profile.png"/></a>' */
+				sessions[i].course.id+'"><img class="img" src="images/photo' + i + '.jpg"/></a>'
+				+'<div class = "text"><h2>'+sessions[i].course.title+'</h2>'
+				+'<h3>CP on Duty: '+sessions[i].CP.preferredName+'</h3>'
+				+'<p>Session started: '+sessions[i].createdAt+'</p>'
+				+'<p>Location: SAL Open Lab - '+sessions[i].location.name+'</p>'
+				+'</div><p class = "status">Status: '+sessions[i].status.name+'<p></div>'
+				+"<hr style='border-top: dotted 1px;' /></div>");
+		}
 	}
-}
 	
 	$( "#search" ).click(function() {
 		var searchQuery = document.getElementById("textbox").value.toLowerCase();
