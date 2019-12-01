@@ -33,46 +33,52 @@
 <script>
 	var queueObj = <%= session.getAttribute("queue") %>;
 	var course = <%= session.getAttribute("course") %>;
-	var queue = queueObj.queuedUsers.list;
+	if(queueObj!= null){
+		var queue = queueObj.queuedUsers.list;
+	}
 	
-	<% 
-	Course c = (Course)session.getAttribute("course");
-	QueueClient qc = new QueueClient("localhost", 6790, c.getId());
-	%>
+ 
+	<% Course c = (Course)session.getAttribute("course"); %>
+	<% QueueClient qc = new QueueClient("localhost", 6790, 1); %>
 	
 	function renderQueue() {
-		$("#courseName").append(course.title);
-		
-		if (queue.length > 0) {
-			console.log(queue.length);
-			$("#queue").append('<div id = "queueHeader">' +
-					'Students in Queue: <br> <hr style="border-top: dotted 1px;" />'
-					+ '</div>');
-			for (var i = 0; i < queue.length; i++) {
-				$("#queue").append('<img class = "img" src="profile.png"/>'
-					+ '<p>'+(i+1)+'. '+queue[i].user.name+'</p>')
+		if(course!=null){
+			$("#courseName").append(course.title);
+		}
+		if(queue){
+			if (queue.length > 0) {
+				console.log(queue.length);
+				$("#queue").append('<div id = "queueHeader">' +
+						'Students in Queue: <br> <hr style="border-top: dotted 1px;" />'
+						+ '</div>');
+				for (var i = 0; i < queue.length; i++) {
+					$("#queue").append('<img class = "img" src="profile.png"/>'
+						+ '<p>'+(i+1)+'. '+queue[i].user.name+'</p>')
+				}
 			}
 		}
 		else {
 			$("#queue").append('<div id = "queueHeader">No students'
-				+ 'currently queued!</div>');
+				+ ' currently queued!</div>');
 		}
+		waitChange();
+		var run = setInterval(waitChange, 1000);
 	}
 	
 	window.onload = renderQueue();
 	
-	<%
-	while (true){
-		if(qc.newQueue == true){
-			qc.newQueue = false;%>
-			changeQueue();
-		<%}
-	}
-	%>
-	
 	function changeQueue(){
 		var lines = <%= qc.code%>
 		document.getElementById("queue").innerHTML = lines;
+	}
+	
+	function waitChange() {
+			console.log("x");
+			var c = <%= qc.newQueue%>;
+			if(c == true){
+				<%qc.newQueue = false;%>
+				changeQueue();
+		}
 	}
 	
 </script>

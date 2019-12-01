@@ -15,7 +15,9 @@ public class QueueClient extends Thread {
 	public boolean newQueue;
 	public String code;
 	public QueueClient(String hostname, int port, int courseID) {
+		System.out.println("a");
 		try {
+			System.out.println("a");
 			changed = false;
 			newQueue = false;
 			System.out.println("Trying to connect to " + hostname + ":" + port);
@@ -26,13 +28,6 @@ public class QueueClient extends Thread {
 			this.start();
 			pw.println(Integer.toString(courseID));
 			pw.flush();
-			while(true) {
-				if(changed = true) {
-					pw.println("change");
-					changed = false;
-					pw.flush();
-				}
-			}
 			
 		} catch (IOException ioe) {
 			System.out.println("ioe in ChatClient constructor: " + ioe.getMessage());
@@ -51,6 +46,12 @@ public class QueueClient extends Thread {
 	
 	public void change() {
 		changed = true;
+		pw.println("change");
+		pw.flush();
+	}
+	
+	public void print(String s) {
+		System.out.println(s);
 	}
 	
 }

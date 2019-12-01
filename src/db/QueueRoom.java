@@ -8,6 +8,7 @@ public class QueueRoom {
 	private Vector<Vector<ServerThread>> serverThreads;
 	public QueueRoom(int port) {
 		try {
+			Vector<Vector<ServerThread>> serverThreads = new Vector<Vector<ServerThread>>();
 			System.out.println("Binding to port " + port);
 			ServerSocket ss = new ServerSocket(port);
 			System.out.println("Bound to port " + port);
