@@ -53,7 +53,8 @@ public class ServerThread extends Thread {
 				}
 				else if(Integer.parseInt(line) > 0) {
 					id = Integer.parseInt(line);
-					qr.add(this, Integer.parseInt(line));
+					System.out.println(id);
+					qr.add(this, id);
 				}
 			}
 		} catch (IOException ioe) {

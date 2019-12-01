@@ -15,9 +15,7 @@ public class QueueClient extends Thread {
 	public boolean newQueue;
 	public String code;
 	public QueueClient(String hostname, int port, int courseID) {
-		System.out.println("a");
 		try {
-			System.out.println("a");
 			changed = false;
 			newQueue = false;
 			System.out.println("Trying to connect to " + hostname + ":" + port);
