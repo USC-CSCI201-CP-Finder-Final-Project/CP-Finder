@@ -55,6 +55,16 @@
 	var cps = <%= session.getAttribute("cps") %>;
 	var queue = queueObj.queuedUsers.list;
 	
+	function removeStudent(userID) {
+		var xhttp = new XMLHttpRequest();
+		var url = "enqueue?userID=" + userID + "&courseID=" + course.id + "&command=remove";
+		xhttp.open("POST", url, true);
+		xhttp.send();
+		xhttp.onreadystatechange = function() {
+			console.log("success");
+		}
+	}
+	
 	function renderQueue() {
 		$("#courseName").append(course.title);
 				
@@ -67,8 +77,11 @@
 			console.log(queue.length);
 			$("#queueHeader").append('<div id = "queue">');
 			for (var i = 0; i < queue.length; i++) {
-				$("#queue").append('<div class = "queueDisplay"><div class = "student"><div class = "img"><img class = "studentimg" src="profile.png"/>'
-					+ '</div><p class = "studentName">'+(i+1)+'. '+queue[i].user.name+'</p></div>')
+				$("#queue").append('<div id = '+ i + ' class = "queueDisplay"><div class = "student"><div class = "img"><img class = "studentimg" src="profile.png"/>'
+					+ '</div><p class = "studentName">'+(i+1)+'. '+queue[i].user.name+'</p>');
+				if (user.userType == "CP") {
+					$("#queue").append('<button onclick = "removeStudent('+queue[i].user.id+')" class = "remove">Remove</p></div>');
+				}
 			}
 			$("#queueHeader").append('<button onclick = "enqueue()" id = "add">Add me to the Queue</button></div>');
 		}
@@ -92,7 +105,7 @@
 			case 5: mapFile = "images/map-e.jpg"; break;
 			case 6: mapFile = "images/map-f.jpg"; break;
 			case 7: mapFile = "images/map-g.jpg"; break;
-			case 8: mapFile = "images/map-h.jpg"; breakl
+			case 8: mapFile = "images/map-h.jpg"; break;
 			deafult: mapFile = "images/map.jpg";
 		}
 		$("#mapImage").attr("src", mapFile);		
