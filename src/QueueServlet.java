@@ -1,5 +1,3 @@
-
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -16,19 +14,15 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
-import db.CoursesManager;
-import db.DatabaseException;
-import db.QueuesManager;
-import models.Course;
-import models.User;
-import models.UserQueue;
+import db.*;
+import models.*;
 import util.ImmutableList;
 
 /**
- * Servlet implementation class enqueue
+ * Servlet implementation class DetailsServ
  */
-@WebServlet("/enqueue")
-public class enqueue extends HttpServlet {
+@WebServlet("/QueueServlet")
+public class QueueServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public static final String CREDENTIALS_STRING = "jdbc:mysql://google/cpfinder?cloudSqlInstance=cpfinder-259622:us-west2:db1&socke"
 			+ "tFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root" +
@@ -38,40 +32,45 @@ public class enqueue extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public enqueue() {
+    public QueueServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
     
-    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void service(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
     	HttpSession session = request.getSession();
-    	int courseID = Integer.parseInt(request.getParameter("courseID"));
-    	int userID = Integer.parseInt(request.getParameter("userID"));
-    	String command = request.getParameter("command");
     	PrintWriter out = response.getWriter();
-    	try {
-    		Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(CREDENTIALS_STRING);
-			QueuesManager qm = new QueuesManager(connection);
-			if (command.equals("add")) {
-				qm.enqueue(courseID, userID);
-	    	}
-	    	else if (command.equals("remove")) {
-	    		qm.dequeue(courseID, userID);
-	    	}
-			UserQueue uq = qm.getQueue(courseID);
-			Gson gson = new Gson();
-			String queueJson = gson.toJson(uq);
-			request.setAttribute("queue", queueJson);
-			session.setAttribute("queue", queueJson);
-			out.print("success");
-			RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/Details.jsp");
-			dispatch.forward(request, response);
-    	} catch (ClassNotFoundException | SQLException | DatabaseException e) {
-			e.printStackTrace();
-		} 
-	}
-    
+    	QueueClient qc = (QueueClient) session.getAttribute("queueClient");
+    	if(request.getParameter("func").equals("getNewQueue")) {
+    		System.out.println("AAA");
+    		session.setAttribute("queueChanged", "false");
+    		out.print(qc.code);
+    		qc.code = "";
+    	}
+    	else if(request.getParameter("func").equals("sendChange")) {
+    		System.out.println(qc.changed);
+    		qc.change();
+    	}
+    	else if(request.getParameter("func").equals("pollChange")) {
+    		boolean b = false;
+    		if(qc != null) {
+    			b = qc.changed;
+    		}
+    		if(b == true) {
+    			System.out.println("mmm");
+    			out.print("true");
+    			qc.changed = false;
+    			session.setAttribute("queueClient", qc);
+    		}
+    		else {
+    			out.print("false");
+    		}
+    	}
+    	RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/Details.jsp");
+		dispatch.forward(request, response);
+    }
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */

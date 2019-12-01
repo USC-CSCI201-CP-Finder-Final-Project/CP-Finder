@@ -50,7 +50,7 @@
 	if(queueObj!= null){
 		var queue = queueObj.queuedUsers.list;
 	}
-	var user = <%= session.getAttribute("user") %>;
+	var user = <%= session.getAttribute("userJson") %>;
 	var course = <%= session.getAttribute("course") %>;
 	var cps = <%= session.getAttribute("cps") %>;
 	var queue = queueObj.queuedUsers.list;
@@ -70,21 +70,17 @@
 				$("#queue").append('<div class = "queueDisplay"><div class = "student"><div class = "img"><img class = "studentimg" src="profile.png"/>'
 					+ '</div><p class = "studentName">'+(i+1)+'. '+queue[i].user.name+'</p></div>')
 			}
-			$("#queueHeader").append('<button onclick = "enqueue()" id = "add">Add me to the Queue</button></div>');
+			$("#queueHeader").append('<button onclick = "enqueue();" id = "add">Add me to the Queue</button></div>');
 		}
 		else {
 			$("#queueHeader").append('<div id = "queue">No students'
-				+ ' currently queued!</div><button onclick = "enqueue()" id = "add">Add me to the Queue</button>');
+				+ ' currently queued!</div><button onclick = "enqueue();" id = "add">Add me to the Queue</button>');
 		}
 		waitChange();
 		var run = setInterval(waitChange, 1000);
 	}
 	
-	window.onload = renderQueue();
-	
-	<% int id = (Integer)session.getAttribute("courseID"); %>
-	<% QueueClient qc = new QueueClient("localhost", 6790, id); %>
-	
+	window.onload = renderQueue();	
 
 	function enqueue() {
 		var command = "";
@@ -112,6 +108,15 @@
 				}
 			}
 		}
+		var func = "sendChange"
+		$.ajax({
+		  url: "QueueServlet",
+		  data: {func: func},
+		  success: function(results){
+			  alert("a");
+		  },
+		  dataType: String
+		});
 	}
 	
 	function rerenderQueue(newQ) {
@@ -124,17 +129,29 @@
 		$("#queueHeader").append('<button onclick = "enqueue()" id = "add">Add me to the Queue</button></div>');
 	}
 	
-	function changeQueue(){
-		var lines = <%= qc.code%>;
-		document.getElementById("queue").innerHTML = lines;
-	}
-	
 	function waitChange() {
 			console.log("x");
-			var c = <%= qc.newQueue%>;
-			if(c == true){
-				<%qc.newQueue = false;%>
-				changeQueue();
+			var func = "pollChange"
+			var res = "false";
+			$.ajax({
+				  url: "QueueServlet",
+				  data: {func: func},
+				  success: function(results){
+					  res = results;
+				  },
+				  dataType: String
+				});
+			if(res == "True"){
+				console.log("y");
+				var func = "getNewQueue"
+				$.ajax({
+				  url: "QueueServlet",
+				  data: {func: func},
+				  success: function(results){
+					  document.getElementById("queueHeader").innerHTML = results;
+				  },
+				  dataType: String
+				});
 		}
 	}
 	

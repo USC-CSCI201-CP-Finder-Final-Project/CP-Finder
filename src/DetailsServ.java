@@ -55,10 +55,25 @@ public class DetailsServ extends HttpServlet {
 			String courseJson = gson.toJson(myCourse);
 			request.setAttribute("queue", queueJson);
 			session.setAttribute("queue", queueJson);
-			System.out.println(queueJson);
+			
 			request.setAttribute("course", courseJson);
 			session.setAttribute("course", courseJson);
-			System.out.println(courseJson);
+			
+			//
+			UsersManager um = new UsersManager(connection);
+			User myUser = um.getUser("test@usc.edu");
+			Gson gso = new Gson();
+			String userString = gso.toJson(myUser);
+			session.setAttribute("userJson", userString);
+			request.setAttribute("userJson", userString);
+			session.setAttribute("user", myUser);
+			request.setAttribute("user", myUser);
+			//
+			
+			QueueClient qc = new QueueClient("localhost", 6790, courseID, request.getSession());
+			session.setAttribute("queueClient", qc);
+			session.setAttribute("queueChanged", "false");
+			
 			RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/Details.jsp");
 			dispatch.forward(request, response);
 		} catch (ClassNotFoundException | SQLException | DatabaseException e) {

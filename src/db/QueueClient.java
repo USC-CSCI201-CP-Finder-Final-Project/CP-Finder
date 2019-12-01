@@ -7,17 +7,21 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
+import javax.servlet.http.HttpSession;
+
 public class QueueClient extends Thread {
 
 	private BufferedReader br;
 	private PrintWriter pw;
-	private boolean changed;
+	public boolean changed;
 	public boolean newQueue;
 	public String code;
-	public QueueClient(String hostname, int port, int courseID) {
+	HttpSession session;
+	public QueueClient(String hostname, int port, int courseID, HttpSession ses) {
 		try {
 			changed = false;
 			newQueue = false;
+			session = ses;
 			System.out.println("Trying to connect to " + hostname + ":" + port);
 			Socket s = new Socket(hostname, port);
 			System.out.println("Connected to " + hostname + ":" + port);
@@ -34,8 +38,16 @@ public class QueueClient extends Thread {
 	public void run() {
 		try {
 			while(true) {
-				String code = br.readLine();
-				newQueue = true;	
+				System.out.println("V");
+				String c = br.readLine();
+				if(!c.equals("")) {
+					System.out.println("U");
+					code = c;
+					newQueue = true;
+					changed = true;
+					session.setAttribute("queueChanged", "true");
+					System.out.println(session.getAttribute("queueChanged"));
+				}
 			}
 		} catch (IOException ioe) {
 			System.out.println("ioe in ChatClient.run(): " + ioe.getMessage());
@@ -44,8 +56,11 @@ public class QueueClient extends Thread {
 	
 	public void change() {
 		changed = true;
+		System.out.println("b");
 		pw.println("change");
+		System.out.println("d");
 		pw.flush();
+		System.out.println("e");
 	}
 	
 	public void print(String s) {

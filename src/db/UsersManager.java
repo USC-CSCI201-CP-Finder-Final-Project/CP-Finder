@@ -64,7 +64,7 @@ public class UsersManager extends TableManager {
 				Blob picture = results.getBlob("picture");
 				UserType userType = results.getBoolean("is_cp") ? UserType.CP : UserType.Student;
 				
-				return new User(userID, name, userEmail, password, preferredName, picture.getBytes(1, (int) picture.length()), userType);
+				return new User(userID, name, userEmail, password, preferredName, null, userType);
 			}
 			
 			throw new ResourceNotFoundDatabaseException("No user found with that email");

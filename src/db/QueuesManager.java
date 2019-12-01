@@ -33,7 +33,6 @@ public class QueuesManager extends TableManager {
 				+ "LEFT JOIN users ON users.user_id = queued_users.user_id "
 				+ "WHERE course_id = ? "
 				+ "ORDER BY queued_user_id;";
-		System.out.println(getQueueQuery);
 		
 		try {
 			PreparedStatement getQueue = dbConnection.prepareStatement(getQueueQuery);

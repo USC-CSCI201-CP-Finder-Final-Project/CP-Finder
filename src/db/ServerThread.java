@@ -6,6 +6,11 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
+import javax.servlet.RequestDispatcher;
+
+import com.google.gson.Gson;
+
 import java.sql.Connection;
 
 
@@ -34,6 +39,7 @@ public class ServerThread extends Thread {
 	}
 
 	public void sendMessage(String message) {
+		System.out.println("W");
 		pw.println(message);
 		pw.flush();
 	}
@@ -41,6 +47,7 @@ public class ServerThread extends Thread {
 	public void run() {
 		try {
 			while(true) {
+				System.out.println("f");
 				String line;
 				String code;
 				line = br.readLine();
@@ -48,6 +55,7 @@ public class ServerThread extends Thread {
 					
 				}
 				else if(line.equals("change")) {
+					System.out.println("c");
 					code = this.getQ();
 					qr.broadcast(code, this, id);
 				}
@@ -65,22 +73,19 @@ public class ServerThread extends Thread {
 	public String getQ() {
 		String s = "";
     	try {
+    		System.out.println("HERE");
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection connection = DriverManager.getConnection(CREDENTIALS_STRING);
 			QueuesManager qm = new QueuesManager(connection);
 			UserQueue uq = qm.getQueue(id);
+			Gson gson = new Gson();
+			String queueJson = gson.toJson(uq);
+			return queueJson;
 			
-			s = "<div id = 'queueHeader'>" +
-			"Students in Queue: <br> <hr style='border-top: dotted 1px;' />"
-			+ "</div>";
-			for(int i = 0; i < uq.getQueuedUsers().size(); i++) {
-				s = s + "<img class = 'img' src='profile.png'/>"
-					+ "<p>"+(i+1)+". "+uq.getQueuedUsers().get(i).getUser().getName()+"</p>";
-			}
 			
 		} catch (ClassNotFoundException | SQLException | DatabaseException e) {
 			e.printStackTrace();
-		} 
-		return s;
+		}
+    	return s;
 	}
 }
