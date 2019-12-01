@@ -71,9 +71,7 @@ public class MainPage extends HttpServlet {
 			int photoIndex = 0;
 			String rootPath = request.getSession().getServletContext().getRealPath("/");
     		for (Session s : activeSessions) {
-				System.out.println(s.getCourse().getTitle());
-				System.out.println(s.getUser().getName());
-    			byte [] data = s.getUser().getImgData();
+				byte [] data = s.getUser().getImgData();
 				ByteArrayInputStream bis = new ByteArrayInputStream(data);
 				BufferedImage bi = ImageIO.read(bis);
 				ImageIO.write(bi, "jpg", new File(rootPath + "images/photo" + photoIndex + ".jpg") );
