@@ -33,11 +33,8 @@
 			<div id = "settingsBody">
 			<div id = "userPref">
 			<h2>User Preferences</h2>
-<<<<<<< HEAD
 				<form action = "updateUser" name = "userChanges">
-=======
 				<form name = "userChanges" action="UpdateProfile">
->>>>>>> 211545fc431a2772b04d1f2bce2c99ee8b93bc20
 					<p>Name</p>
 					<input name = "name" type="text"></br>
 					<p>Email</p>
@@ -46,13 +43,10 @@
 					<input name = "prefname" type="text"></br>
 					<p>Password</p>
 					<input name = "password" type="password"></br>
-<<<<<<< HEAD
 					<input type = "submit" value = "Update">
-=======
 					<p>Profile Picture</p>
 					<input name = "picture" type="file"></br>
 					<input type="submit" value="Update" />
->>>>>>> 211545fc431a2772b04d1f2bce2c99ee8b93bc20
 				</form>
 			</div>
 			<div id = "cpcheck">
