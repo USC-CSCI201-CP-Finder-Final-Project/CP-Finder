@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import db.UsersManager;
+
 /**
  * Servlet implementation class Login
  */
@@ -41,6 +43,16 @@ public class Login extends HttpServlet {
 		// TODO Auto-generated method stub
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			connection = DriverManager.getConnection(CREDENTIALS_STRING);
+			UsersManager um = new UsersManager(connection);
+			LoginResponse response = um.logIn(email, password);
+		} catch (SQLException | ClassNotFoundException sqle) {
+			System.out.println(sqle.getMessage());
+		}
+		
 
 		String error = "";
 		String next = "/landingPage.jsp";
@@ -88,9 +100,7 @@ public class Login extends HttpServlet {
 				}
 			}
 
-			catch (SQLException | ClassNotFoundException sqle) {
-				System.out.println(sqle.getMessage());
-			}
+			
 			LoginResponse loginResponse = usersManager.logIn(email, password);
 
 			switch (loginResponse) {

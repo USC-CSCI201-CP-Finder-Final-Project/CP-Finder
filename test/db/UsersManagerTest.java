@@ -19,7 +19,7 @@ public class UsersManagerTest {
 			e1.printStackTrace();
 		}
 		
-		User user = new User("Drew", "drew.cutch@gmail.com", "password123", null, null, UserType.Student);
+		User user = new User("Drew", "drew.cutch@gmail.com", "password123", null, new byte[100], UserType.Student);
 		
 		try {
 			usersManager.createUser(user);
@@ -28,7 +28,13 @@ public class UsersManagerTest {
 			e.printStackTrace();
 		}
 		
-		System.out.println(user);
+		
+		try {
+			System.out.println(usersManager.getUser("drew.cutch@gmail.com"));
+		} catch (DatabaseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		SessionsManager sessionsManager = new SessionsManager(dbConn);
 		try {

@@ -11,9 +11,8 @@
 <body>
 	<div style="display:none" id="mySidebar">
 	  <button class="close navbar" onclick="closeSidebar()">Close &times;</button>
-	  <a href="#" class="links navbar">Profile</a>
+	  <a href="Settings.jsp" class="links navbar">Settings</a>
 	  <a href="landingPage.jsp" class="links navbar">Sign Out</a>
-	  <a href="#" class="links navbar">Link 3</a>
 	</div>
 	<div id = "main">
 		<div id = "header">
@@ -31,25 +30,28 @@
 			<img id = "icon" class = "content" src = "angryFace.png">
 		</div>
 		<div id = "results">
+			<h2>Active Sessions</h2>
 		</div>
 	</div>
 </body>
 <script>
 
-	var user = <%= session.getAttribute("user") %>;
-	var data = <%= session.getAttribute("data") %>;
+var data = <%= session.getAttribute("sessions") %>;
+console.log(data);
+var sessions = data.list;
 
-	function renderData() {
-		for(i = 0; i < data.length; i++) {
-			$("#results").append('<div id = "' + i + '"'+ '><div class = "container"><a href="\DetailsServ?id='+
-				data[i].courseID+'"><img class = "img" src="profile.png"/></a>'
-				+'<div class = "text"><h2>'+data[i].course+'</h2>'
-				+'<h3>'+data[i].name+'</h3>'
-				+'<p>Currently sitting in: '+data[i].location+'</p>'
-				+'</div><p class = "status">Status: '+data[i].status+'<p></div>'
-				+"<hr style='border-top: dotted 1px;' /></div>");
-		}
+function renderData() {
+	for(i = 0; i < sessions.length; i++) {
+		$("#results").append('<div id = "' + i + '"'+ '><div class = "container"><a href="\DetailsServ?id='+
+			sessions[i].course.id+'"><img class = "img" src="profile.png"/></a>'
+			+'<div class = "text"><h2>'+sessions[i].course.title+'</h2>'
+			+'<h3>CP on Duty: '+sessions[i].CP.preferredName+'</h3>'
+			+'<p>Session started: '+sessions[i].createdAt+'</p>'
+			+'<p>Location: SAL Open Lab - '+sessions[i].location.name+'</p>'
+			+'</div><p class = "status">Status: '+sessions[i].status.name+'<p></div>'
+			+"<hr style='border-top: dotted 1px;' /></div>");
 	}
+}
 	
 	$( "#search" ).click(function() {
 		var searchQuery = document.getElementById("textbox").value.toLowerCase();

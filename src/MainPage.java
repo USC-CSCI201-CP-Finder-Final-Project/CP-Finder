@@ -3,6 +3,16 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
+
+import db.DatabaseException;
+import db.SessionsManager;
+import models.Course;
+import models.Location;
+import models.Session;
+import models.Status;
+import models.User;
+import util.ImmutableList;
+
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.Connection;
@@ -43,100 +53,23 @@ public class MainPage extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
     	HttpSession session = request.getSession();
-    	PreparedStatement st = null;
-		ResultSet rs = null;
-		List<CPDisplay> mainPage = new ArrayList<CPDisplay>();
-		Vector<Integer> courseIDs = new Vector<Integer>();
-		Vector<Integer> userIDs = new Vector<Integer>();
-		Vector<Integer> locationIDs = new Vector<Integer>();
-		Vector<Integer> statusIDs = new Vector<Integer>();
-		Vector<String> courses = new Vector<String>();
-		Vector<String> names = new Vector<String>();
-		Vector<Blob> pictures = new Vector<Blob>();
-		Vector<String> locations = new Vector<String>();
-		Vector<String> statuses = new Vector<String>();
+    	String sessionsString = "";
+    	Gson gson = new Gson();
     	try {
     		Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(CREDENTIALS_STRING);
-			st = connection.prepareStatement("SELECT * FROM sessions;");
-			rs = st.executeQuery();
-			while (rs.next()) {
-				int courseID = rs.getInt("course_id");
-				int userID = rs.getInt("user_id");
-				int locationID = rs.getInt("location_id");
-				int statusID = rs.getInt("status_id");
-				courseIDs.add(courseID);
-				userIDs.add(userID);
-				locationIDs.add(locationID);
-				statusIDs.add(statusID);
-			}
-			
-			for (int i = 0; i < courseIDs.size(); i++) {
-				st = connection.prepareStatement("SELECT * FROM courses WHERE course_id =" + courseIDs.get(i) + ";");
-				rs = st.executeQuery();
-				// getting courses; will only execute once (unique course id)
-				while (rs.next()) {
-					String course = rs.getString("course_name");
-					courses.add(course);
-				}
-				st = connection.prepareStatement("SELECT * FROM users WHERE user_id =" + userIDs.get(i) + ";");
-				rs = st.executeQuery();
-				// getting user info; will only execute once (unique user id)
-				while (rs.next()) {
-					String name = rs.getString("preferred_name");
-					Blob picture = rs.getBlob("picture");
-					names.add(name);
-					pictures.add(picture);
-				}
-				st = connection.prepareStatement("SELECT * FROM locations WHERE location_id =" + locationIDs.get(i) + ";");
-				rs = st.executeQuery();
-				// getting user info; will only execute once (unique user id)
-				while (rs.next()) {
-					String location = rs.getString("location_name");
-					locations.add(location);
-				}
-				st = connection.prepareStatement("SELECT * FROM statuses WHERE status_id =" + statusIDs.get(i) + ";");
-				rs = st.executeQuery();
-				// getting user info; will only execute once (unique user id)
-				while (rs.next()) {
-					String status = rs.getString("status");
-					statuses.add(status);
-				}
-			}
-			
-			// after exiting for loop, CPDisplay list populated
-			for (int i = 0; i < courses.size(); i++) {
-				//Blob temp = pictures.get(i);
-				//byte[ ] imgData = temp.getBytes(1, (int) temp.length());
-				CPDisplay newCP = new CPDisplay(courses.get(i), courseIDs.get(i), names.get(i),
-						userIDs.get(i), locations.get(i),
-						statuses.get(i));
-				mainPage.add(newCP);
-			}
-			
-			Gson gson = new Gson();
-			String cpJson = gson.toJson(mainPage);
-			request.setAttribute("data", cpJson);
-			session.setAttribute("data", cpJson);
-			RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/MainPage.jsp");
-			dispatch.forward(request, response);
-    	} catch (SQLException | ClassNotFoundException sqle) {
+    		connection = DriverManager.getConnection(CREDENTIALS_STRING);
+        	SessionsManager sm = new SessionsManager(connection);
+        	ImmutableList<Session> activeSessions = sm.getSessions(true);
+        	sessionsString = gson.toJson(activeSessions);
+        	request.setAttribute("sessionsObject", activeSessions);
+    		session.setAttribute("sessionsObject", activeSessions);
+    	} catch (SQLException | ClassNotFoundException | DatabaseException sqle) {
     		System.out.println(sqle.getMessage());
-    	} finally {
-			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (st != null) {
-					st.close();
-				}
-				if (connection != null) {
-					// conn.close();
-				}
-			} catch (SQLException sqle) {
-				System.out.println(sqle.getMessage());
-			}
-		}
+    	} 
+		request.setAttribute("sessions", sessionsString);
+		session.setAttribute("sessions", sessionsString);
+		RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/MainPage.jsp");
+		dispatch.forward(request, response);
     	
     }
 
