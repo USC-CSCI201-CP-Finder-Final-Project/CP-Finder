@@ -11,9 +11,9 @@
 <body>
 	<div style="display:none" id="mySidebar">
 	  <button class="close navbar" onclick="closeSidebar()">Close &times;</button>
-	  <a href = "MainPage.jsp" class="links navbar">Home</a>
-	  <a href="landingPage.jsp" class="links navbar">Sign Out</a>
-	  <a href="#" class="links navbar">Settings</a>
+	  <a href = "MainPage.jsp" class="links navbar">Home</a><br>
+	  <a href="landingPage.jsp" class="links navbar">Sign Out</a><br>
+	  <a href="#" class="links navbar">Settings</a><br>
 	</div>
 	<div id = "main">
 		<div id = "header">
@@ -42,7 +42,6 @@
 					<input name = "prefname" type="text"></br>
 					<p>Password</p>
 					<input name = "password" type="password"></br>
-					<input type = "submit" value = "Update">
 					<p>Profile Picture</p>
 					<input name = "picture" type="file"></br>					
 					<input type="submit" value="Update" />

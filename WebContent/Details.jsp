@@ -28,7 +28,7 @@
 		<div id = "mainContent">
 			<div id = "firstHalf">
 				<div class="map">
-	                <h3 class = "seatingHeader"><span>Seating Location</span></h3>
+	                <h3 class = "seatingHeader">Seating Location</h3>
 	
 	                <img id="mapImage" src="images/map-a.jpg" data-high-res-src="images/map-a.jpg" width=100%/>
 	
@@ -38,7 +38,7 @@
 			
 			<div id = "queueObj">
 				<div id = "queueHeader">
-					<h3 class = "queueText"><span>Students in Queue</span></h3>
+					<h3 class = "queueText">Students in Queue</h3>
 				</div>
 			</div>
 		</div>
@@ -78,9 +78,12 @@
 			$("#queueHeader").append('<div id = "queue">');
 			for (var i = 0; i < queue.length; i++) {
 				$("#queue").append('<div id = '+ i + ' class = "queueDisplay"><div class = "student"><div class = "img"><img class = "studentimg" src="profile.png"/>'
-					+ '</div><p class = "studentName">'+(i+1)+'. '+queue[i].user.name+'</p>');
+					+ '<p class = "studentName">'+(i+1)+'. '+queue[i].user.name+'</p>');
 				if (user.userType == "CP") {
-					$("#queue").append('<button onclick = "removeStudent('+queue[i].user.id+')" class = "remove">Remove</p></div>');
+					$("#queue").append('<button onclick = "removeStudent('+queue[i].user.id+')" class = "remove">Remove</div></div></div>');
+				}
+				else {
+					$("#queue").append('</div></div></div>');
 				}
 			}
 			$("#queueHeader").append('<button onclick = "enqueue()" id = "add">Add me to the Queue</button></div>');

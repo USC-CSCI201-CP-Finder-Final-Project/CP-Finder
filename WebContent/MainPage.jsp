@@ -30,7 +30,7 @@
 			<img id = "icon" class = "content" src = "angryFace.png">
 		</div>
 		<div id = "results">
-			<h2>Active Sessions</h2>
+			<h2 id = "title">Active Sessions</h2>
 		</div>
 	</div>
 </body>
@@ -52,7 +52,7 @@
 				+'<p>Session started: '+sessions[i].createdAt+'</p>'
 				+'<p>Location: SAL Open Lab - '+sessions[i].location.name+'</p>'
 				+'</div><p class = "status">Status: '+sessions[i].status.name+'<p></div>'
-				+"<hr style='border-top: dotted 1px;' /></div>");
+				+"<hr style='border-top: solid 1px; color: #110336;' /></div>");
 		}
 	}
 	
