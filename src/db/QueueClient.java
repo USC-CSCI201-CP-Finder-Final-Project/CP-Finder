@@ -44,8 +44,8 @@ public class QueueClient extends Thread {
 					System.out.println("U");
 					code = c;
 					newQueue = true;
-					changed = true;
 					session.setAttribute("queueChanged", "true");
+					session.setAttribute("queueClient", this);
 					System.out.println(session.getAttribute("queueChanged"));
 				}
 			}
@@ -61,6 +61,7 @@ public class QueueClient extends Thread {
 		System.out.println("d");
 		pw.flush();
 		System.out.println("e");
+		changed = false;
 	}
 	
 	public void print(String s) {

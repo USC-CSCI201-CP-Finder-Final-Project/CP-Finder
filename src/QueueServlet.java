@@ -47,6 +47,7 @@ public class QueueServlet extends HttpServlet {
     		session.setAttribute("queueChanged", "false");
     		out.print(qc.code);
     		qc.code = "";
+    		return;
     	}
     	else if(request.getParameter("func").equals("sendChange")) {
     		System.out.println(qc.changed);
@@ -55,16 +56,23 @@ public class QueueServlet extends HttpServlet {
     	else if(request.getParameter("func").equals("pollChange")) {
     		boolean b = false;
     		if(qc != null) {
-    			b = qc.changed;
+    			b = qc.newQueue;
     		}
     		if(b == true) {
     			System.out.println("mmm");
-    			out.print("true");
-    			qc.changed = false;
+    			System.out.println(qc.code);
+    			out.print(qc.code);
+    			out.flush();
+    			qc.code = "";
+    			qc.newQueue = false;
     			session.setAttribute("queueClient", qc);
+    			System.out.println("nnn");
+    			return;
     		}
     		else {
     			out.print("false");
+    			out.flush();
+    			return;
     		}
     	}
     	RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/Details.jsp");

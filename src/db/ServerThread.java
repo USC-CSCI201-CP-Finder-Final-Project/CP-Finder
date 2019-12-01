@@ -57,6 +57,7 @@ public class ServerThread extends Thread {
 				else if(line.equals("change")) {
 					System.out.println("c");
 					code = this.getQ();
+					System.out.println(code);
 					qr.broadcast(code, this, id);
 				}
 				else if(Integer.parseInt(line) > 0) {
@@ -79,8 +80,14 @@ public class ServerThread extends Thread {
 			QueuesManager qm = new QueuesManager(connection);
 			UserQueue uq = qm.getQueue(id);
 			Gson gson = new Gson();
-			String queueJson = gson.toJson(uq);
-			return queueJson;
+			String code = "";
+			code += "<div id = 'queue'>";
+			for (int i = 0; i < uq.getQueuedUsers().size(); i++) {
+				code += "<div class = 'queueDisplay'><div class = 'student'><div class = 'img'><img class = 'studentimg' src='profile.png'/>"
+					+ "</div><p class = 'studentName'>"+(i+1)+". " + uq.getQueuedUsers().get(i).getUser().getName()+"</p></div>";
+			}
+			code += "<button onclick = 'enqueue();' id = 'add'>Add me to the Queue</button></div>";
+			return code;
 			
 			
 		} catch (ClassNotFoundException | SQLException | DatabaseException e) {

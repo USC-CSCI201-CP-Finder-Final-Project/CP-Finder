@@ -134,29 +134,28 @@
 	
 	
 	function waitChange() {
-			console.log("x");
-			var func = "pollChange"
-			var res = "false";
-			$.ajax({
-				  url: "QueueServlet",
-				  data: {func: func},
-				  success: function(results){
-					  res = results;
-				  },
-				  dataType: String
-				});
-			if(res == "True"){
+		console.log("x");
+		var func = "pollChange"
+		$.ajax({
+		  url: "QueueServlet",
+		  data: {func: func},
+		  success: function(results){
+			  console.log(results);
+			  if(results != "false"){
 				console.log("y");
-				var func = "getNewQueue"
-				$.ajax({
-				  url: "QueueServlet",
-				  data: {func: func},
-				  success: function(results){
-					  document.getElementById("queueHeader").innerHTML = results;
-				  },
-				  dataType: String
-				});
-		}
+				document.getElementById("queueHeader").innerHTML = results;
+			  }
+		  	},
+		  complete: function(results){
+			  var z = results.responseText
+			  if(z != "false" ){
+			  	console.log("true");
+			  	
+			  	document.getElementById("queueObj").innerHTML = z;
+			  }
+		  },
+		  dataType: String
+		});
 	} 
 	
 	
