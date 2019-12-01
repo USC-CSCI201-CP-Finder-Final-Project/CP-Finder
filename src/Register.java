@@ -13,6 +13,12 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
+
+import models.User;
+import models.UserType;
 
 /**
  * Servlet implementation class Register
@@ -38,13 +44,13 @@ public class Register extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		HttpSession session = request.getSession();
 		String firstname = request.getParameter("fName");
 		String lastname = request.getParameter("lName");
 		String preferredname = request.getParameter("pName");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		String isCP = request.getParameter("isCP");
-		UserType userType;
 
 		String error = "";
 		String next = "/landingPage.jsp";
@@ -74,16 +80,26 @@ public class Register extends HttpServlet {
 			next = "/Register.jsp";
 		}
 		
-		if ("CP".equals(isCP)) {
-			userType = UserType.CP;
-		}
-		
-		else if ("student".equals(isCP)) {
-			userType = UserType.Student;
-		}
 		
 		if (error.equals("")) {
-			User user = new User(firstname + " " + lastname, email, password, preferredname, new byte[100], userType);
+			if ("CP".equals(isCP)) {
+				User user = new User(firstname + " " + lastname, email, password, preferredname, new byte[100], UserType.CP);
+				Gson gson = new Gson();
+				String userString = gson.toJson(user);
+				session.setAttribute("userJson", userString);
+				request.setAttribute("userJson", userString);
+				request.setAttribute("user", user);
+				session.setAttribute("user", user);
+			}
+			else if ("student".equals(isCP)) {
+				User user = new User(firstname + " " + lastname, email, password, preferredname, new byte[100], UserType.Student);
+				Gson gson = new Gson();
+				String userString = gson.toJson(user);
+				session.setAttribute("userJson", userString);
+				request.setAttribute("userJson", userString);
+				request.setAttribute("user", user);
+				session.setAttribute("user", user);
+			}
 		}
 
 			RequestDispatcher dispatch = getServletContext().getRequestDispatcher(next);

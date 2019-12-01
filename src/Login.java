@@ -13,6 +13,12 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
+
+import db.LoginResponse;
+import db.UsersManager;
 
 /**
  * Servlet implementation class Login
@@ -39,6 +45,7 @@ public class Login extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		HttpSession session = request.getSession();
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 
@@ -54,35 +61,38 @@ public class Login extends HttpServlet {
 			next = "/login.jsp";
 		}
 		if (password.equals("")) {
-			error += "Password cannot be empty.";
+			error += "Password cannot be empy.";
 			next = "/login.jsp";
 		}
 		if (error.equals("")) {
-			LoginResponse loginResponse = usersManager.logIn(email, password);
+			PreparedStatement st = null;
+			ResultSet rs = null;
 
-			switch (loginResponse) {
-			case AccountDoesNotExist:
-				error += "There is no account with that email.";
-				next = "/login.jsp";
-				break;
-			case IncorrectPassword:
-				error += "Incorrect password!";
-				next = "/login.jsp";
-				break;
-			case ServerError:
-				error += "Server error, please try again later";
-				next = "/login.jsp";
-				break;
-			case Success:
-				//set session attribute of user
-				//set it equal to some userJson object
-				User user = usersManager.getUser(email);
-				/*Gson gson = new Gson();
-				String userJson = gson.toJson(user);*/
-				session.setAttribute("user", userJson);
-				error += "Correct! You are now logged in";
-				next = "/MainPage.jsp";
-				break;
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				connection = DriverManager.getConnection(CREDENTIALS_STRING);
+				UsersManager um = new UsersManager(connection);
+				LoginResponse loginResponse = um.logIn(email, password);
+				switch (loginResponse) {
+				case Success:
+					User myUser = um.getUser(email);
+					Gson gson = new Gson();
+					String userString = gson.toJson(myUser);
+					session.setAttribute("userJson", userString);
+					request.setAttribute("userJson", userString);
+					session.setAttribute("user", myUser);
+					request.setAttribute("user", myUser);
+					session.setAttribute("successful", true);
+					request.setAttribute("successful", true);
+					break;
+				default:
+					session.setAttribute("error", loginResponse.getMessage());
+					request.setAttribute("error", loginResponse.getMessage());
+					next = "/login.jsp";
+				}
+			}
+			catch (SQLException | ClassNotFoundException sqle) {
+				System.out.println(sqle.getMessage());
 			}
 		}
 
@@ -97,4 +107,5 @@ public class Login extends HttpServlet {
 		}
 
 	}
+
 }
