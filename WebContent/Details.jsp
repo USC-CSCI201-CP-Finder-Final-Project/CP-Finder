@@ -106,7 +106,6 @@
 	
 
 	function enqueue() {
-		console.log("here");
 		var command = "";
 		if ($("#add").text() == "Add me to the Queue") {
 			command = "add";

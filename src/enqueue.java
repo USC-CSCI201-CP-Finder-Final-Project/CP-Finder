@@ -19,7 +19,10 @@ import com.google.gson.Gson;
 import db.CoursesManager;
 import db.DatabaseException;
 import db.QueuesManager;
+import db.SessionsManager;
 import models.Course;
+import models.Session;
+import models.Status;
 import models.User;
 import models.UserQueue;
 import util.ImmutableList;
@@ -48,23 +51,34 @@ public class enqueue extends HttpServlet {
     	int courseID = Integer.parseInt(request.getParameter("courseID"));
     	int userID = Integer.parseInt(request.getParameter("userID"));
     	String command = request.getParameter("command");
+    	User myUser = (User)session.getAttribute("user");
+    	System.out.println(myUser);
     	PrintWriter out = response.getWriter();
     	try {
     		Class.forName("com.mysql.jdbc.Driver");
 			connection = DriverManager.getConnection(CREDENTIALS_STRING);
 			QueuesManager qm = new QueuesManager(connection);
+			SessionsManager sm = new SessionsManager(connection);
+			Session mySession = sm.getSession(myUser.getId(), true);
 			if (command.equals("add")) {
 				qm.enqueue(courseID, userID);
 	    	}
 	    	else if (command.equals("remove")) {
 	    		qm.dequeue(courseID, userID);
 	    	}
+	    	else if (command.equals("in")) {
+	    		Status status = new Status(1, "Checked In");
+	    		sm.setSessionStatus(mySession, status);
+	    	}
+	    	else if (command.equals("out")) {
+	    		Status status = new Status(2, "Checked Out");
+	    		sm.setSessionStatus(mySession, status);
+	    	}
 			UserQueue uq = qm.getQueue(courseID);
 			Gson gson = new Gson();
 			String queueJson = gson.toJson(uq);
 			request.setAttribute("queue", queueJson);
 			session.setAttribute("queue", queueJson);
-			System.out.println(queueJson);
 			out.print("success");
 			RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/Details.jsp");
 			dispatch.forward(request, response);

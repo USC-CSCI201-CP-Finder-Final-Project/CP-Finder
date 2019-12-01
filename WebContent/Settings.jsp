@@ -51,7 +51,7 @@
 			<div id = "cpcheck">
 			<h2>CP Check-In</h2>
 				<label class = "switch">
-					<input type = "checkbox" onclick = "return toggleText()">
+					<input id = "cpCheck" type = "checkbox" onclick = "cpCheckin()">
 					<span class="slider round"></span>
 				</label>
 				<p id = "status">Inactive</p>
@@ -61,16 +61,31 @@
 	</div>
 	<script>
 		
-		var user = <%= session.getAttribute("user") %>;
+		var user = <%= session.getAttribute("userJson") %>;
+		var course = <%= session.getAttribute("course") %>;
 		
-		function toggleText() {
-			var text = document.getElementById("status").innerHTML;
-			console.log(text);
-			if (text == "Inactive") {
-				document.getElementById("status").innerHTML = "Active";
+		
+		function cpCheckin() {
+			var command = "";
+			if ($("#cpCheck").checked) {
+				command = "in";
 			}
 			else {
-				document.getElementById("status").innerHTML = "Inactive";
+				command = "out";
+			}
+			var xhttp = new XMLHttpRequest();
+			var url = "enqueue?userID=" + user.id + "&courseID=" 
+					+ course.id + "&command=" + command;
+			xhttp.open("POST", url, true);
+			xhttp.send();
+			xhttp.onreadystatechange = function() {
+				console.log("here");
+				if ($("#status").text() == "Inactive") {
+					document.getElementById("status").innerHTML = "Active";
+				}
+				else if ($("#status").text() == "Active") {
+					document.getElementById("status").innerHTML = "Inactive";
+				}
 			}
 		}
 		
