@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Oswald&display=swap');
+
 /* CSS HARD RESET */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -53,12 +55,14 @@ blockquote, q {
 }
 
 #header {
-	background-color: #BD2031;
+	background: rgb(189,32,49);
+	background: linear-gradient(90deg, rgba(189,32,49,1) 29%, rgba(226,108,43,1) 43%, rgba(189,32,49,1) 58%, rgba(226,84,43,1) 76%, rgba(189,32,49,1) 100%);
 	overflow: hidden;
 	display: grid;
 	grid-template-columns: 10% 80% 10%;
 	align-items: center;
 	box-shadow: 0 8px 6px -6px black;
+	font-family: 'Oswald', sans-serif;
 }
 
 .content {
@@ -106,9 +110,9 @@ a {
 	align-self: center;
 	padding: 30px;
 	width: 80%;
-    height: 80%;
-    object-fit: cover;
-    border-radius: 50%;
+	height: 80%;
+	object-fit: cover;
+	border-radius: 50%;
 }
 
 .status {
@@ -118,19 +122,25 @@ a {
 
 h2 {
 	font-weight: bold;
+	font-family: 'Oswald', sans-serif;
+	color: #110336;
 	font-size: 200%;
 	padding: 1%;
 	padding-left: 3%;
 }
 
 h3 {
+	font-family: 'Open Sans', sans-serif;
 	font-size: 150%;
+	color: #110336;
 	padding: 1%;
 	padding-left: 3%;
 }
 
 p {
+	font-family: 'Open Sans', sans-serif;
 	font-size: 100%;
+	color: #110336;
 	padding: 1%;
 	padding-left: 3%;
 }
@@ -144,6 +154,11 @@ p {
 
 .sticky + #results {
   padding-top: 100px;
+}
+
+#title {
+	padding-top: 50px;
+	font-size: 300%;
 }
 
 #mySidebar {
@@ -165,7 +180,8 @@ p {
 }
 
 .links {
-	color: #6B6B6A;
+	font-family: 'Oswald', sans-serif;
+	color: #110336;
 	text-decoration: none;
 	margin-top: 15px;
 	font-size: 200%;
@@ -176,6 +192,7 @@ p {
 }
 
 .close {
+	font-family: 'Oswald', sans-serif;
 	color: #BD2031;
 	background-color: white;
 	border-style: none;
@@ -191,7 +208,7 @@ p {
 	width: 95%;
 	border-style: none;
 	border-radius: 25px;
-	background-color:#DDD;
+	background-color: white;
 	display: grid;
 	grid-template-columns: 80% 20%;
 	color: #BD2031;
@@ -206,9 +223,10 @@ p {
 }
 
 #textbox {
+	font-family: 'Oswald', sans-serif;
 	width: 90%;
 	border-style: none;
-	background-color:#DDD;
+	background-color: white;
 	color: #BD2031;
 	font-size: 120%;
 	background-color: none;
