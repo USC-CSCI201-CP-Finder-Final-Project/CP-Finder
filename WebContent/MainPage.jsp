@@ -59,10 +59,9 @@
 	$( "#search" ).click(function() {
 		var searchQuery = document.getElementById("textbox").value.toLowerCase();
 		console.log(searchQuery);
-		for(i = 0; i < data.length; i++) {
-			// if searchQuery comes up dry
-			if (((data[i].course).toLowerCase() != searchQuery)
-				&& (data[i].name).toLowerCase() != searchQuery) {
+		for(i = 0; i < sessions.length; i++) {
+			if (!((sessions[i].course.title).toLowerCase().includes(searchQuery)) &&
+					!((sessions[i].CP.name).toLowerCase().includes(searchQuery))) {
 				$("#"+i).hide();
 			}
 			else {
