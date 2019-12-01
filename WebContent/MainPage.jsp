@@ -11,9 +11,8 @@
 <body>
 	<div style="display:none" id="mySidebar">
 	  <button class="close navbar" onclick="closeSidebar()">Close &times;</button>
-	  <a href="#" class="links navbar">Profile</a>
+	  <a href="Settings.jsp" class="links navbar">Settings</a>
 	  <a href="landingPage.jsp" class="links navbar">Sign Out</a>
-	  <a href="#" class="links navbar">Settings</a>
 	</div>
 	<div id = "main">
 		<div id = "header">
