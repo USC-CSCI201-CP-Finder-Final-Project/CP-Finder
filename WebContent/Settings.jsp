@@ -33,8 +33,7 @@
 			<div id = "settingsBody">
 			<div id = "userPref">
 			<h2>User Preferences</h2>
-				<form action = "updateUser" name = "userChanges">
-				<form name = "userChanges" action="UpdateProfile">
+				<form name = "userChanges" action="UpdateProfile" method="POST" enctype="multipart/form-data">
 					<p>Name</p>
 					<input name = "name" type="text"></br>
 					<p>Email</p>
@@ -45,14 +44,14 @@
 					<input name = "password" type="password"></br>
 					<input type = "submit" value = "Update">
 					<p>Profile Picture</p>
-					<input name = "picture" type="file"></br>
+					<input name = "picture" type="file"></br>					
 					<input type="submit" value="Update" />
 				</form>
 			</div>
-			<div id = "cpcheck">
+			<div id = "cp">
 			<h2>CP Check-In</h2>
 				<label class = "switch">
-					<input type = "checkbox" onclick = "return toggleText()">
+					<input id = "cpCheck" type = "checkbox" onclick = "cpCheckin()">
 					<span class="slider round"></span>
 				</label>
 				<p id = "status">Inactive</p>
@@ -62,37 +61,51 @@
 	</div>
 	<script>
 		
-		var user = <%= session.getAttribute("user") %>;
+		var user = <%= session.getAttribute("userJson") %>;
+		var course = <%= session.getAttribute("course") %>;
 		
-		function toggleText() {
-			var text = document.getElementById("status").innerHTML;
-			console.log(text);
-			if (text == "Inactive") {
-				document.getElementById("status").innerHTML = "Active";
+		
+		function cpCheckin() {
+			var command = "";
+			if ($("#cpCheck").checked) {
+				command = "in";
 			}
 			else {
-				document.getElementById("status").innerHTML = "Inactive";
+				command = "out";
+			}
+			var xhttp = new XMLHttpRequest();
+			var url = "enqueue?userID=" + user.id + "&courseID=" 
+					+ course.id + "&command=" + command;
+			xhttp.open("POST", url, true);
+			xhttp.send();
+			xhttp.onreadystatechange = function() {
+				console.log("here");
+				if ($("#status").text() == "Inactive") {
+					document.getElementById("status").innerHTML = "Active";
+				}
+				else if ($("#status").text() == "Active") {
+					document.getElementById("status").innerHTML = "Inactive";
+				}
 			}
 		}
 		
 		
 		function populateUser() {
-			$('input[name=name]').val('000000');
-			$('input[name=email]').val('000000');
-			$('input[name=prefName]').val('000000');
-			$('input[name=password]').val('000000');
-		
+			$('input[name=name]').val(user.name);
+			$('input[name=email]').val(user.email);
+			$('input[name=prefName]').val(user.preferredName);
 			
-			/*if (is cp) {
-				$('#cpcheck').show();
+			if (user.userType == "CP") {
+				$("#cp").show();
 			}
 			else {
-				$('#cpcheck').hide();
-			}*/
-		}
-	
+				$("#cp").hide();
+			}
 		
-	
+		}
+		
+		window.onload = populateUser();
+		
 	</script>
 	<script type="text/javascript" src="main.js"></script>
 </body>

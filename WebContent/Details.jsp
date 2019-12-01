@@ -57,7 +57,7 @@
 	
 	function renderQueue() {
 		$("#courseName").append(course.title);
-		
+				
 		/*for (var i = 0; i < cps.length; i++) {
 			$("#cps").append('<div class = "cpDisplay"><div class = "img"><img src="profile.png"/>'
 				 + '</div><div class = "cpName">CP: ' + cps[i] + '</div></div>');
@@ -78,6 +78,25 @@
 		}
 		waitChange();
 		var run = setInterval(waitChange, 1000);
+		
+		
+		// Populate map file based on location
+		let locID = <%= request.getParameter("loc") %>;
+		console.log(locID);
+		let mapFile;		
+		switch (locID) {
+			case 1: mapFile = "images/map-a.jpg"; break;
+			case 2: mapFile = "images/map-b.jpg"; break;
+			case 3: mapFile = "images/map-c.jpg"; break;
+			case 4: mapFile = "images/map-d.jpg"; break;
+			case 5: mapFile = "images/map-e.jpg"; break;
+			case 6: mapFile = "images/map-f.jpg"; break;
+			case 7: mapFile = "images/map-g.jpg"; break;
+			case 8: mapFile = "images/map-h.jpg"; breakl
+			deafult: mapFile = "images/map.jpg";
+		}
+		$("#mapImage").attr("src", mapFile);		
+		
 	}
 	
 	window.onload = renderQueue();	
@@ -95,17 +114,11 @@
 		xhttp.open("POST", url, true);
 		xhttp.send();
 		xhttp.onreadystatechange = function() {
-			if (this.responseText == "success") {
-				if ($("#add").text() == "Add me to the Queue") {
-					document.getElementById("add").innerHTML = "Remove me from the Queue";
-					var newQ = <%= request.getAttribute("queue") %>;
-					rerenderQueue(newQ);
-				}
-				else if ($("#add").text() == "Remove me from the Queue") {
-					document.getElementById("add").innerHTML = "Add me to the Queue";
-					var newQ = <%= request.getAttribute("queue") %>;
-					rerenderQueue(newQ);
-				}
+			if ($("#add").text() == "Add me to the Queue") {
+				document.getElementById("add").innerHTML = "Remove me from the Queue";
+			}
+			else if ($("#add").text() == "Remove me from the Queue") {
+				document.getElementById("add").innerHTML = "Add me to the Queue";
 			}
 		}
 		var func = "sendChange"
@@ -119,15 +132,6 @@
 		});
 	}
 	
-	function rerenderQueue(newQ) {
-		$("#queueHeader").innerHTML = "";
-		$("#queueHeader").append('<div id = "queue">');
-		for (var i = 0; i < queue.length; i++) {
-			$("#queue").append('<div class = "queueDisplay"><div class = "student"><div class = "img"><img class = "studentimg" src="profile.png"/>'
-				+ '</div><p class = "studentName">'+(i+1)+'. '+queue[i].user.name+'</p></div>')
-		}
-		$("#queueHeader").append('<button onclick = "enqueue()" id = "add">Add me to the Queue</button></div>');
-	}
 	
 	function waitChange() {
 			console.log("x");
@@ -153,7 +157,8 @@
 				  dataType: String
 				});
 		}
-	}
+	} 
+	
 	
 </script>
 <script type="text/javascript" src="main.js"></script>

@@ -13,6 +13,9 @@ import models.Status;
 import models.User;
 import util.ImmutableList;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.Connection;
@@ -24,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -63,14 +67,23 @@ public class MainPage extends HttpServlet {
         	sessionsString = gson.toJson(activeSessions);
         	request.setAttribute("sessionsObject", activeSessions);
     		session.setAttribute("sessionsObject", activeSessions);
+    		
+			int photoIndex = 0;
+			String rootPath = request.getSession().getServletContext().getRealPath("/");
+    		for (Session s : activeSessions) {
+				byte [] data = s.getUser().getImgData();
+				ByteArrayInputStream bis = new ByteArrayInputStream(data);
+				BufferedImage bi = ImageIO.read(bis);
+				ImageIO.write(bi, "jpg", new File(rootPath + "images/photo" + photoIndex + ".jpg") );
+				++photoIndex;
+			}
     	} catch (SQLException | ClassNotFoundException | DatabaseException sqle) {
     		System.out.println(sqle.getMessage());
     	} 
 		request.setAttribute("sessions", sessionsString);
 		session.setAttribute("sessions", sessionsString);
 		RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/MainPage.jsp");
-		dispatch.forward(request, response);
-    	
+		dispatch.forward(request, response);    	
     }
 
 	/**
