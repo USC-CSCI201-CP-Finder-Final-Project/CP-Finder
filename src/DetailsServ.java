@@ -49,6 +49,7 @@ public class DetailsServ extends HttpServlet {
 			CoursesManager cm = new CoursesManager(connection);
 			ImmutableList<Course> results = cm.getCourses();
 			Course myCourse = results.get(courseID-1);
+			session.setAttribute("courseID", courseID);
 			Gson gson = new Gson();
 			String queueJson = gson.toJson(uq);
 			String courseJson = gson.toJson(myCourse);

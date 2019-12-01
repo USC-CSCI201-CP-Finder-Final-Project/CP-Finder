@@ -37,8 +37,8 @@
 	}
 	
  
-	<% Course c = (Course)session.getAttribute("course"); %>
-	<% QueueClient qc = new QueueClient("localhost", 6790, 1); %>
+	<% int id = (Integer)session.getAttribute("courseID"); %>
+	<% QueueClient qc = new QueueClient("localhost", 6790, id); %>
 	
 	function renderQueue() {
 		if(course!=null){
@@ -54,6 +54,10 @@
 					$("#queue").append('<img class = "img" src="profile.png"/>'
 						+ '<p>'+(i+1)+'. '+queue[i].user.name+'</p>')
 				}
+			}
+			else {
+				$("#queue").append('<div id = "queueHeader">No students'
+					+ ' currently queued!</div>');
 			}
 		}
 		else {
