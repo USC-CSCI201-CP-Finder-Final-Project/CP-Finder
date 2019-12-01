@@ -66,6 +66,7 @@ blockquote, q {
 	text-align: center;
 	padding: 15px;
 	align-items: center;
+	justify-content: center;
 }
 
 #menu {
@@ -92,9 +93,11 @@ blockquote, q {
   padding-right: 10px;
 }
 
-.sticky + #results {
-  padding-top: 100px;
+.sticky + #settings {
+  padding-top: 200px;
 }
+
+
 
 #mySidebar {
 	transition: all 0.5s;
@@ -105,6 +108,13 @@ blockquote, q {
 	grid-template-columns: 100%;
 	grid-template-rows: 10% 10% 10% 10% 10%;;
 	padding: 15px;
+}
+
+#settingsHead {
+	font-size: 200%;
+	font-weight: bold;
+	color: white;
+	text-align: center;
 }
 
 .navbar {
@@ -119,8 +129,6 @@ blockquote, q {
 	text-decoration: none;
 	margin-top: 15px;
 	font-size: 200%;
-	width: 100%;
-	text-align: initial;
 }
 
 .links:hover {

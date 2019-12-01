@@ -42,6 +42,7 @@
 					<input name = "prefname" type="text"></br>
 					<p>Password</p>
 					<input name = "password" type="password"></br>
+					<input type = "submit" value = "Update">
 					<p>Profile Picture</p>
 					<input name = "picture" type="file"></br>					
 					<input type="submit" value="Update" />

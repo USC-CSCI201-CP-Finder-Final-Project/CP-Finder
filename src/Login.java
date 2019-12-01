@@ -17,8 +17,10 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import db.DatabaseException;
 import db.LoginResponse;
 import db.UsersManager;
+import models.User;
 
 /**
  * Servlet implementation class Login
@@ -50,7 +52,7 @@ public class Login extends HttpServlet {
 		String password = request.getParameter("password");
 
 		String error = "";
-		String next = "/landingPage.jsp";
+		String next = "MainPage.java";
 
 		if (email.equals("")) {
 			error += "Please Input a valid email";
@@ -91,7 +93,7 @@ public class Login extends HttpServlet {
 					next = "/login.jsp";
 				}
 			}
-			catch (SQLException | ClassNotFoundException sqle) {
+			catch (SQLException | ClassNotFoundException | DatabaseException sqle) {
 				System.out.println(sqle.getMessage());
 			}
 		}
