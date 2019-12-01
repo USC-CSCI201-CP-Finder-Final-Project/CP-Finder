@@ -117,6 +117,29 @@
 	
 	window.onload = renderQueue();	
 
+	function reRender(){
+		if (queue.length > 0) {
+			console.log(queue.length);
+			$("#queueHeader").append('<div id = "queue">');
+			for (var i = 0; i < queue.length; i++) {
+				$("#queue").append('<div id = '+ i + ' class = "queueDisplay"><div class = "student"><div class = "img"><img class = "studentimg" src="profile.png"/>'
+					+ '<p class = "studentName">'+(i+1)+'. '+queue[i].user.name+'</p>');
+				if (user.userType == "CP") {
+					$("#queue").append('<button onclick = "removeStudent('+queue[i].user.id+')" class = "remove">Remove</div></div></div>');
+				}
+				else {
+					$("#queue").append('</div></div></div>');
+				}
+			}
+			$("#queueHeader").append('<button onclick = "enqueue();" id = "add">Add me to the Queue</button></div>');
+		}
+		else {
+			$("#queueHeader").append('<div id = "queue">No students'
+				+ ' currently queued!</div><button onclick = "enqueue();" id = "add">Add me to the Queue</button>');
+		}
+	}
+	
+	
 	function enqueue() {
 		var command = "";
 		if ($("#add").text() == "Add me to the Queue") {
@@ -125,18 +148,27 @@
 		else if ($("#add").text() == "Remove me from the Queue") {
 			command = "remove";
 		}
-		var xhttp = new XMLHttpRequest();
+		<%-- var xhttp = new XMLHttpRequest();
 		var url = "enqueue?userID=" + user.id + "&courseID=" + course.id + "&command=" + command;
 		xhttp.open("POST", url, true);
 		xhttp.send();
 		xhttp.onreadystatechange = function() {
 			if ($("#add").text() == "Add me to the Queue") {
-				document.getElementById("add").innerHTML = "Remove me from the Queue";
+				document.getElementById("queueHeader").innerHTML = xhttp.responseText;
 			}
 			else if ($("#add").text() == "Remove me from the Queue") {
-				document.getElementById("add").innerHTML = "Add me to the Queue";
+				document.getElementById("queueHeader").innerHTML = xhttp.responseText;
 			}
-		}
+		}--%>
+		$.ajax({
+			  url: "enqueue",
+			  data: {userID: user.id, courseID: course.id, command: command},
+			  complete: function(results){
+				  document.getElementById("queueHeader").innerHTML = results.responseText;
+			  },
+			  dataType: String
+			});
+		
 		var func = "sendChange"
 		$.ajax({
 		  url: "QueueServlet",

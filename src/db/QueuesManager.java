@@ -110,6 +110,7 @@ public class QueuesManager extends TableManager {
 	}
 	
 	public void dequeue(int courseId, int userId) throws DatabaseException {
+		System.out.println(courseId + " " + userId);
 		String dequeueQuery = "DELETE FROM queued_users "
 				+ "WHERE user_id = ? AND course_id = ?";
 		
@@ -117,6 +118,8 @@ public class QueuesManager extends TableManager {
 			PreparedStatement dequeue = dbConnection.prepareStatement(dequeueQuery);
 			dequeue.setInt(1, userId);
 			dequeue.setInt(2, courseId);
+			
+			dequeue.executeUpdate();
 			
 		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage());
@@ -130,6 +133,7 @@ public class QueuesManager extends TableManager {
 			PreparedStatement dequeue = dbConnection.prepareStatement(dequeueQuery);
 			dequeue.setInt(1, queuedUser.getId());
 			
+			dequeue.executeUpdate();
 		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage());
 		}

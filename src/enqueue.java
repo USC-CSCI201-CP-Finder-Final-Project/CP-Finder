@@ -60,11 +60,14 @@ public class enqueue extends HttpServlet {
 			QueuesManager qm = new QueuesManager(connection);
 			SessionsManager sm = new SessionsManager(connection);
 			Session mySession = sm.getSession(myUser.getId(), true);
+			String button ="";
 			if (command.equals("add")) {
 				qm.enqueue(courseID, userID);
+				button = "<button onclick = 'enqueue();' id = 'add'>Remove me from the Queue</button></div>";
 	    	}
 	    	else if (command.equals("remove")) {
 	    		qm.dequeue(courseID, userID);
+	    		button = "<button onclick = 'enqueue();' id = 'add'>Add me to the Queue</button></div>";
 	    	}
 	    	else if (command.equals("in")) {
 	    		Status status = new Status(1, "Checked In");
@@ -79,9 +82,20 @@ public class enqueue extends HttpServlet {
 			String queueJson = gson.toJson(uq);
 			request.setAttribute("queue", queueJson);
 			session.setAttribute("queue", queueJson);
-			out.print("success");
-			RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/Details.jsp");
-			dispatch.forward(request, response);
+			
+			String code = "";
+			code += "<div id = 'queue'>";
+			for (int i = 0; i < uq.getQueuedUsers().size(); i++) {
+				code += "<div class = 'queueDisplay'><div class = 'student'><div class = 'img'><img class = 'studentimg' src='profile.png'/>"
+					+ "</div><p class = 'studentName'>"+(i+1)+". " + uq.getQueuedUsers().get(i).getUser().getName()+"</p></div>";
+			}
+			code += button;
+
+			
+			out.print(code);
+			out.flush();
+			//RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/Details.jsp");
+			//dispatch.forward(request, response);
     	} catch (ClassNotFoundException | SQLException | DatabaseException e) {
 			e.printStackTrace();
 		} 
