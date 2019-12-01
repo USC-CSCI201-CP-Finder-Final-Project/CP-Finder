@@ -57,7 +57,7 @@
 	
 	function renderQueue() {
 		$("#courseName").append(course.title);
-		
+				
 		/*for (var i = 0; i < cps.length; i++) {
 			$("#cps").append('<div class = "cpDisplay"><div class = "img"><img src="profile.png"/>'
 				 + '</div><div class = "cpName">CP: ' + cps[i] + '</div></div>');
@@ -78,6 +78,25 @@
 		}
 		waitChange();
 		var run = setInterval(waitChange, 1000);
+		
+		
+		// Populate map file based on location
+		let locID = <%= request.getParameter("loc") %>;
+		console.log(locID);
+		let mapFile;		
+		switch (locID) {
+			case 1: mapFile = "images/map-a.jpg"; break;
+			case 2: mapFile = "images/map-b.jpg"; break;
+			case 3: mapFile = "images/map-c.jpg"; break;
+			case 4: mapFile = "images/map-d.jpg"; break;
+			case 5: mapFile = "images/map-e.jpg"; break;
+			case 6: mapFile = "images/map-f.jpg"; break;
+			case 7: mapFile = "images/map-g.jpg"; break;
+			case 8: mapFile = "images/map-h.jpg"; breakl
+			deafult: mapFile = "images/map.jpg";
+		}
+		$("#mapImage").attr("src", mapFile);		
+		
 	}
 	
 	window.onload = renderQueue();
@@ -137,6 +156,7 @@
 				changeQueue();
 		}
 	}
+	
 	
 </script>
 <script type="text/javascript" src="main.js"></script>

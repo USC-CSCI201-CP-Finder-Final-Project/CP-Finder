@@ -43,9 +43,10 @@
 	
 	function renderData() {
 		for(i = 0; i < sessions.length; i++) {
-			$("#results").append('<div id = "' + i + '"'+ '><div class = "container"><a href="\DetailsServ?id='+
+			$("#results").append('<div id = "' + i + '"'+ '><div class = "container"><a href="\DetailsServ?id='
 				/*  sessions[i].course.id+'"><img class = "img" src="profile.png"/></a>' */
-				sessions[i].course.id+'"><img class="img" src="images/photo' + i + '.jpg"/></a>'
+				+ sessions[i].course.id + '&loc=' + sessions[i].location.id
+				+'"><img class="img" src="images/photo' + i + '.jpg"/></a>'
 				+'<div class = "text"><h2>'+sessions[i].course.title+'</h2>'
 				+'<h3>CP on Duty: '+sessions[i].CP.preferredName+'</h3>'
 				+'<p>Session started: '+sessions[i].createdAt+'</p>'
