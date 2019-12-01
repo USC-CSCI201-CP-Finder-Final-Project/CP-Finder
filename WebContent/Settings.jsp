@@ -40,6 +40,7 @@
 				</div>
 			</div>
 			<div id = "settingsBody">
+			<div id = "userPref">
 			<h2>User Preferences</h2>
 				<form name = "userChanges">
 					<p>Name</p>
@@ -51,6 +52,14 @@
 					<p>Password</p>
 					<input id = "password" type="text"></br>
 				</form>
+			</div>
+			<div id = "cpcheck">
+			<h2>CP Check-In</h2>
+				<label class = "switch">
+					<input type = "checkbox">
+					<span class="slider round"></span>
+				</label>
+			</div>
 			</div>
 		</div>
 	</div>

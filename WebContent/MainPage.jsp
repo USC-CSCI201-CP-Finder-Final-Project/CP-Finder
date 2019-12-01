@@ -38,6 +38,7 @@
 <script>
 
 var data = <%= session.getAttribute("sessions") %>;
+console.log(data);
 var sessions = data.list;
 
 function renderData() {

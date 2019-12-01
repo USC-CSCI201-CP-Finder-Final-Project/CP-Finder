@@ -53,10 +53,6 @@ public class MainPage extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
     	HttpSession session = request.getSession();
-    	ArrayList<Course> courses = new ArrayList<Course>();
-    	ArrayList<User> users = new ArrayList<User>();
-    	ArrayList<Location> locations = new ArrayList<Location>();
-    	ArrayList<Status> statuses = new ArrayList<Status>();
     	String sessionsString = "";
     	Gson gson = new Gson();
     	try {
@@ -65,16 +61,8 @@ public class MainPage extends HttpServlet {
         	SessionsManager sm = new SessionsManager(connection);
         	ImmutableList<Session> activeSessions = sm.getSessions(true);
         	sessionsString = gson.toJson(activeSessions);
-        	for (int i = 0; i < activeSessions.size(); i++) {
-        		Course course = activeSessions.get(i).getCourse();
-        		User user = activeSessions.get(i).getUser();
-        		Location location = activeSessions.get(i).getLocation();
-        		Status status = activeSessions.get(i).getStatus();
-        		courses.add(course);
-        		users.add(user);
-        		locations.add(location);
-        		statuses.add(status);
-        	}
+        	request.setAttribute("sessionsObject", activeSessions);
+    		session.setAttribute("sessionsObject", activeSessions);
     	} catch (SQLException | ClassNotFoundException | DatabaseException sqle) {
     		System.out.println(sqle.getMessage());
     	} 
