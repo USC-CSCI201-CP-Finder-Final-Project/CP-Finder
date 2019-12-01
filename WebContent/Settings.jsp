@@ -48,7 +48,7 @@
 					<input type="submit" value="Update" />
 				</form>
 			</div>
-			<div id = "cpcheck">
+			<div id = "cp">
 			<h2>CP Check-In</h2>
 				<label class = "switch">
 					<input id = "cpCheck" type = "checkbox" onclick = "cpCheckin()">
@@ -91,19 +91,20 @@
 		
 		
 		function populateUser() {
-			$('input[name=name]').val('000000');
-			$('input[name=email]').val('000000');
-			$('input[name=prefName]').val('000000');
-			$('input[name=password]').val('000000');
-		
+			$('input[name=name]').val(user.name);
+			$('input[name=email]').val(user.email);
+			$('input[name=prefName]').val(user.preferredName);
 			
-			/*if (is cp) {
-				$('#cpcheck').show();
+			if (user.userType == "CP") {
+				$("#cp").show();
 			}
 			else {
-				$('#cpcheck').hide();
-			}*/
+				$("#cp").hide();
+			}
+		
 		}
+		
+		window.onload = populateUser();
 		
 	</script>
 	<script type="text/javascript" src="main.js"></script>
