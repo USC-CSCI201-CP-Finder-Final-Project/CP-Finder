@@ -45,6 +45,8 @@ atlassian-ide-plugin.xml
 .project
 .settings
 .metadata
+/WebContent/WEB-INF/lib
+CPFinder-b4d52bd50399.json
 
 # NetBeans specific files/directories #
 #######################################
