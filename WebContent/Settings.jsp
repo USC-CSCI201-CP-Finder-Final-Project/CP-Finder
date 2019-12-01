@@ -11,24 +11,14 @@
 <body>
 	<div style="display:none" id="mySidebar">
 	  <button class="close navbar" onclick="closeSidebar()">Close &times;</button>
-	  <a href = "#" class="links navbar">Home</a>
-	  <a href="#" class="links navbar">Profile</a>
+	  <a href = "MainPage.jsp" class="links navbar">Home</a>
 	  <a href="landingPage.jsp" class="links navbar">Sign Out</a>
 	  <a href="#" class="links navbar">Settings</a>
 	</div>
 	<div id = "main">
 		<div id = "header">
 			<button id = "menu" class = "content" onclick="openSidebar()">&#9776;</button>
-			<form class = "content">
-				<div id = "filter">
-					<div id = "col1">
-						<input id = "textbox" type = "text" name = "searchText" placeholder = "Search course or CP!"><br>
-					</div>
-					<div id = "col2">
-						<input id = "search" src = "search.jpg" type = "image">
-					</div>
-				</div>
-			</form>
+			<div id = "settingsHead">Settings</div>
 			<img id = "icon" class = "content" src = "angryFace.png">
 		</div>
 		<div id = "settings">
@@ -43,7 +33,7 @@
 			<div id = "settingsBody">
 			<div id = "userPref">
 			<h2>User Preferences</h2>
-				<form name = "userChanges">
+				<form action = "updateUser" name = "userChanges">
 					<p>Name</p>
 					<input name = "name" type="text"></br>
 					<p>Email</p>
@@ -52,6 +42,7 @@
 					<input name = "prefname" type="text"></br>
 					<p>Password</p>
 					<input name = "password" type="password"></br>
+					<input type = "submit" value = "Update">
 				</form>
 			</div>
 			<div id = "cpcheck">
@@ -99,5 +90,6 @@
 		
 	
 	</script>
+	<script type="text/javascript" src="main.js"></script>
 </body>
 </html>

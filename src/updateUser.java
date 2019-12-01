@@ -1,4 +1,5 @@
 
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,58 +15,59 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
-import db.*;
-import models.*;
+import db.DatabaseException;
+import db.SessionsManager;
+import db.UsersManager;
+import models.Session;
+import models.User;
+import models.UserType;
 import util.ImmutableList;
 
 /**
- * Servlet implementation class DetailsServ
+ * Servlet implementation class updateUser
  */
-@WebServlet("/DetailsServ")
-public class DetailsServ extends HttpServlet {
+@WebServlet("/updateUser")
+public class updateUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public static final String CREDENTIALS_STRING = "jdbc:mysql://google/cpfinder?cloudSqlInstance=cpfinder-259622:us-west2:db1&socke"
 			+ "tFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root" +
 		"&password=uscCs201!";
-	static Connection connection = null;
+		static Connection connection = null;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DetailsServ() {
+    public updateUser() {
         super();
         // TODO Auto-generated constructor stub
     }
     
-    protected void service(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	HttpSession session = request.getSession();
-    	int courseID = Integer.parseInt(request.getParameter("id"));
+    	User user = (User)session.getAttribute("user");
+    	String name = request.getParameter("name");
+    	String email = request.getParameter("email");
+    	String prefName = request.getParameter("prefName");
+    	String password = request.getParameter("password");
+    	User newUser = new User(name, email, password, prefName, new byte[100], user.getUserType());
+    	Gson gson = new Gson();
     	try {
-			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(CREDENTIALS_STRING);
-			QueuesManager qm = new QueuesManager(connection);
-			UserQueue uq = qm.getQueue(courseID);
-			CoursesManager cm = new CoursesManager(connection);
-			ImmutableList<Course> results = cm.getCourses();
-			Course myCourse = results.get(courseID-1);
-			session.setAttribute("courseID", courseID);
-			Gson gson = new Gson();
-			String queueJson = gson.toJson(uq);
-			String courseJson = gson.toJson(myCourse);
-			request.setAttribute("queue", queueJson);
-			session.setAttribute("queue", queueJson);
-			System.out.println(queueJson);
-			request.setAttribute("course", courseJson);
-			session.setAttribute("course", courseJson);
-			System.out.println(courseJson);
-			RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/Details.jsp");
-			dispatch.forward(request, response);
-		} catch (ClassNotFoundException | SQLException | DatabaseException e) {
-			e.printStackTrace();
-		} 
+    		Class.forName("com.mysql.jdbc.Driver");
+    		connection = DriverManager.getConnection(CREDENTIALS_STRING);
+        	UsersManager um = new UsersManager(connection);
+        	um.updateUser(user.getEmail(), newUser);
+        	String userString = gson.toJson(user);
+			session.setAttribute("userJson", userString);
+			request.setAttribute("userJson", userString);
+			request.setAttribute("user", user);
+			session.setAttribute("user", user);
+        	
+    	} catch (SQLException | ClassNotFoundException | DatabaseException sqle) {
+    		System.out.println(sqle.getMessage());
+    	} 
+		RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/Settings.jsp");
+		dispatch.forward(request, response);
     }
-
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
