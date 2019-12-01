@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Settings</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <link rel="stylesheet" href="Settings.css">
 </head>
 <body>
@@ -44,24 +45,59 @@
 			<h2>User Preferences</h2>
 				<form name = "userChanges">
 					<p>Name</p>
-					<input id = "name" type="text"></br>
+					<input name = "name" type="text"></br>
 					<p>Email</p>
-					<input id = "email" type="text"></br>
+					<input name = "email" type="text"></br>
 					<p>Preferred Name</p>
-					<input id = "prefname" type="text"></br>
+					<input name = "prefname" type="text"></br>
 					<p>Password</p>
-					<input id = "password" type="text"></br>
+					<input name = "password" type="password"></br>
 				</form>
 			</div>
 			<div id = "cpcheck">
 			<h2>CP Check-In</h2>
 				<label class = "switch">
-					<input type = "checkbox">
+					<input type = "checkbox" onclick = "return toggleText()">
 					<span class="slider round"></span>
 				</label>
+				<p id = "status">Inactive</p>
 			</div>
 			</div>
 		</div>
 	</div>
+	<script>
+		
+		var user = <%= session.getAttribute("user") %>;
+		
+		function toggleText() {
+			var text = document.getElementById("status").innerHTML;
+			console.log(text);
+			if (text == "Inactive") {
+				document.getElementById("status").innerHTML = "Active";
+			}
+			else {
+				document.getElementById("status").innerHTML = "Inactive";
+			}
+		}
+		
+		
+		function populateUser() {
+			$('input[name=name]').val('000000');
+			$('input[name=email]').val('000000');
+			$('input[name=prefName]').val('000000');
+			$('input[name=password]').val('000000');
+		
+			
+			/*if (is cp) {
+				$('#cpcheck').show();
+			}
+			else {
+				$('#cpcheck').hide();
+			}*/
+		}
+	
+		
+	
+	</script>
 </body>
 </html>

@@ -12,8 +12,10 @@
 <body>
 	<div style="display:none" id="mySidebar">
 	  <button class="close navbar" onclick="closeSidebar()">Close &times;</button>
-	  <a href="Settings.jsp" class="links navbar">Settings</a>
+	  <a onclick = "history.back()" class="links navbar">Home</a>
+	  <a href="#" class="links navbar">Profile</a>
 	  <a href="landingPage.jsp" class="links navbar">Sign Out</a>
+	  <a href="#" class="links navbar">Settings</a>
 	</div>
 	
 	<div id = "main">
@@ -24,9 +26,23 @@
 			</form>
 			<img id = "icon" class = "content" src = "angryFace.png">
 		</div>
-		<div id = "cps"></div>
-		
-		<div id = "queue"></div>
+		<div id = "mainContent">
+			<div id = "firstHalf">
+				<div class="map">
+	                <h3 class = "seatingHeader"><span>Seating Location</span></h3>
+	
+	                <img id="mapImage" src="images/map-a.jpg" data-high-res-src="images/map-a.jpg" width=100%/>
+	
+	            </div>
+				<div id = "cps"></div>
+			</div>
+			
+			<div id = "queueObj">
+				<div id = "queueHeader">
+					<h3 class = "queueText"><span>Students in Queue</span></h3>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 <script>
@@ -36,39 +52,40 @@
 		var queue = queueObj.queuedUsers.list;
 	}
 	
- 
-	<% int id = (Integer)session.getAttribute("courseID"); %>
-	<% QueueClient qc = new QueueClient("localhost", 6790, id); %>
+	var queueObj = <%= session.getAttribute("queue") %>;
+	var course = <%= session.getAttribute("course") %>;
+	var cps = <%= session.getAttribute("cps") %>;
+	var queue = queueObj.queuedUsers.list;
 	
 	function renderQueue() {
-		if(course!=null){
-			$("#courseName").append(course.title);
-		}
-		if(queue){
-			if (queue.length > 0) {
-				console.log(queue.length);
-				$("#queue").append('<div id = "queueHeader">' +
-						'Students in Queue: <br> <hr style="border-top: dotted 1px;" />'
-						+ '</div>');
-				for (var i = 0; i < queue.length; i++) {
-					$("#queue").append('<img class = "img" src="profile.png"/>'
-						+ '<p>'+(i+1)+'. '+queue[i].user.name+'</p>')
-				}
+		$("#courseName").append(course.title);
+		
+		/*for (var i = 0; i < cps.length; i++) {
+			$("#cps").append('<div class = "cpDisplay"><div class = "img"><img src="profile.png"/>'
+				 + '</div><div class = "cpName">CP: ' + cps[i] + '</div></div>');
+		}*/
+		
+		if (queue.length > 0) {
+			console.log(queue.length);
+			$("#queueHeader").append('<div id = "queue">');
+			for (var i = 0; i < queue.length; i++) {
+				$("#queue").append('<div class = "queueDisplay"><div class = "student"><div class = "img"><img class = "studentimg" src="profile.png"/>'
+					+ '</div><p class = "studentName">'+(i+1)+'. '+queue[i].user.name+'</p></div>')
 			}
-			else {
-				$("#queue").append('<div id = "queueHeader">No students'
-					+ ' currently queued!</div>');
-			}
+			$("#queueHeader").append('<button id = "add">Add me to the Queue</button></div>');
 		}
 		else {
-			$("#queue").append('<div id = "queueHeader">No students'
-				+ ' currently queued!</div>');
+			$("#queueHeader").append('<div id = "queue">No students'
+				+ ' currently queued!</div><button id = "add">Add me to the Queue</button>');
 		}
 		waitChange();
 		var run = setInterval(waitChange, 1000);
 	}
 	
 	window.onload = renderQueue();
+	
+	<% int id = (Integer)session.getAttribute("courseID"); %>
+	<% QueueClient qc = new QueueClient("localhost", 6790, id); %>
 	
 
 	function changeQueue(){

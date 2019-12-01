@@ -194,6 +194,11 @@ blockquote, q {
 	margin: auto;
 }
 
+input {
+	margin-top: 10px;
+	margin-bottom: 15px;
+}
+
 #settingstext {
 	font-size: 200%;
 }
@@ -210,8 +215,14 @@ blockquote, q {
 	padding: 15px;
 }
 
+h2 {
+	font-size: 180%;
+	padding-bottom: 15px;
+}
+
 /* The switch - the box around the slider */
 .switch {
+  margin-bottom: 15px;
   position: relative;
   display: inline-block;
   width: 60px;
