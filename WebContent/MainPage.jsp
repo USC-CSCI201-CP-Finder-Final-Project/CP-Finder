@@ -30,36 +30,38 @@
 			<img id = "icon" class = "content" src = "angryFace.png">
 		</div>
 		<div id = "results">
-			<h2>Active Sessions</h2>
+			<h2 id = "title">Active Sessions</h2>
 		</div>
 	</div>
 </body>
 <script>
 
-var data = <%= session.getAttribute("sessions") %>;
-console.log(data);
-var sessions = data.list;
-
-function renderData() {
-	for(i = 0; i < sessions.length; i++) {
-		$("#results").append('<div id = "' + i + '"'+ '><div class = "container"><a href="\DetailsServ?id='+
-			sessions[i].course.id+'"><img class = "img" src="profile.png"/></a>'
-			+'<div class = "text"><h2>'+sessions[i].course.title+'</h2>'
-			+'<h3>CP on Duty: '+sessions[i].CP.preferredName+'</h3>'
-			+'<p>Session started: '+sessions[i].createdAt+'</p>'
-			+'<p>Location: SAL Open Lab - '+sessions[i].location.name+'</p>'
-			+'</div><p class = "status">Status: '+sessions[i].status.name+'<p></div>'
-			+"<hr style='border-top: dotted 1px;' /></div>");
+	var data = <%= session.getAttribute("sessions") %>;
+	console.log(data);
+	var sessions = data.list;	
+	var webServiceUrl = "localhost:8080/CP-Finder/"; 
+	
+	function renderData() {
+		for(i = 0; i < sessions.length; i++) {
+			$("#results").append('<div id = "' + i + '"'+ '><div class = "container"><a href="\DetailsServ?id='
+				/*  sessions[i].course.id+'"><img class = "img" src="profile.png"/></a>' */
+				+ sessions[i].course.id + '&loc=' + sessions[i].location.id
+				+'"><img class="img" src="images/photo-userid-' + sessions[i].CP.id + '.jpg"/></a>'
+				+'<div class = "text"><h2>'+sessions[i].course.title+'</h2>'
+				+'<h3>CP on Duty: '+sessions[i].CP.preferredName+'</h3>'
+				+'<p>Session started: '+sessions[i].createdAt+'</p>'
+				+'<p>Location: SAL Open Lab - '+sessions[i].location.name+'</p>'
+				+'</div><p class = "status">Status: '+sessions[i].status.name+'<p></div>'
+				+"<hr style='border-top: solid 1px; color: #110336;' /></div>");
+		}
 	}
-}
 	
 	$( "#search" ).click(function() {
 		var searchQuery = document.getElementById("textbox").value.toLowerCase();
 		console.log(searchQuery);
-		for(i = 0; i < data.length; i++) {
-			// if searchQuery comes up dry
-			if (((data[i].course).toLowerCase() != searchQuery)
-				&& (data[i].name).toLowerCase() != searchQuery) {
+		for(i = 0; i < sessions.length; i++) {
+			if (!((sessions[i].course.title).toLowerCase().includes(searchQuery)) &&
+					!((sessions[i].CP.name).toLowerCase().includes(searchQuery))) {
 				$("#"+i).hide();
 			}
 			else {

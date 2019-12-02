@@ -140,7 +140,7 @@ public class SessionsManager extends TableManager {
 				Location location = new Location(locationID, locationName);
 				
 				int statusID = results.getInt("status_id");
-				String statusName = results.getString("status_name");
+				String statusName = results.getString("status");
 				Status status = new Status(statusID, statusName);
 				
 				
@@ -280,7 +280,7 @@ public class SessionsManager extends TableManager {
 				Location location = new Location(locationID, locationName);
 				
 				int statusID = results.getInt("status_id");
-				String statusName = results.getString("status_name");
+				String statusName = results.getString("status");
 				Status status = new Status(statusID, statusName);
 				
 				

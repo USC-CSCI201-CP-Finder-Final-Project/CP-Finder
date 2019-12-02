@@ -28,6 +28,7 @@ public class QueueRoom {
 	
 	public void broadcast(String message, ServerThread st, int courseID) {
 		if (message != null) {
+			System.out.println(serverThreads.get(courseID-1));
 			for(ServerThread threads : serverThreads.get(courseID-1)) {
 				if (st != threads) {
 					threads.sendMessage(message);

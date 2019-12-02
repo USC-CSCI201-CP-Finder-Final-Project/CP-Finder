@@ -6,6 +6,11 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
+import javax.servlet.RequestDispatcher;
+
+import com.google.gson.Gson;
+
 import java.sql.Connection;
 
 
@@ -53,7 +58,6 @@ public class ServerThread extends Thread {
 				}
 				else if(Integer.parseInt(line) > 0) {
 					id = Integer.parseInt(line);
-					System.out.println(id);
 					qr.add(this, id);
 				}
 			}
@@ -69,18 +73,20 @@ public class ServerThread extends Thread {
 			Connection connection = DriverManager.getConnection(CREDENTIALS_STRING);
 			QueuesManager qm = new QueuesManager(connection);
 			UserQueue uq = qm.getQueue(id);
-			
-			s = "<div id = 'queueHeader'>" +
-			"Students in Queue: <br> <hr style='border-top: dotted 1px;' />"
-			+ "</div>";
-			for(int i = 0; i < uq.getQueuedUsers().size(); i++) {
-				s = s + "<img class = 'img' src='profile.png'/>"
-					+ "<p>"+(i+1)+". "+uq.getQueuedUsers().get(i).getUser().getName()+"</p>";
+			Gson gson = new Gson();
+			String code = "";
+			code += "<div id = 'queue'>";
+			for (int i = 0; i < uq.getQueuedUsers().size(); i++) {
+				code += "<div class = 'queueDisplay'><div class = 'student'><div class = 'img'><img class = 'studentimg' src='profile.png'/>"
+					+ "</div><p class = 'studentName'>"+(i+1)+". " + uq.getQueuedUsers().get(i).getUser().getName()+"</p></div>";
 			}
+			code += "<button onclick = 'enqueue();' id = 'add'>Add me to the Queue</button></div>";
+			return code;
+			
 			
 		} catch (ClassNotFoundException | SQLException | DatabaseException e) {
 			e.printStackTrace();
-		} 
-		return s;
+		}
+    	return s;
 	}
 }
