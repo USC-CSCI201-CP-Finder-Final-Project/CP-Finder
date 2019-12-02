@@ -12,7 +12,7 @@
 	<div style="display:none" id="mySidebar">
 	  <button class="close navbar" onclick="closeSidebar()">Close &times;</button>
 	  <a href = "MainPage.jsp" class="links navbar">Home</a><br>
-	  <a id = "signout" onclick = "signOut()" class="links navbar">Sign Out</a><br>
+	  <a id = "signout" href = "logout" class="links navbar">Sign Out</a><br>
 	  <a href="#" class="links navbar">Settings</a><br>
 	</div>
 	<div id = "main">

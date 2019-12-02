@@ -2,25 +2,6 @@ window.onscroll = function() { handleScroll() };
 
 var offset = document.getElementById("header").offsetTop;
 
-function signOut() {
-	sessionStorage.clear();
-	window.location.href = "landingPage.jsp";
-}
-
-$("#icon").click(function() {
-		window.location.href = "landingPage.jsp";
-});
-
-function handleScroll() {
-	if (window.pageYOffset >= offset) {
-		document.getElementById("header").classList.add("sticky");
-	}
-	else {
-		document.getElementById("header").classList.remove("sticky");
-	}
-}
-
-
 function closeSidebar() {
 	document.getElementById("header").style.gridTemplateColumns = "10% 80% 20%";
 	document.getElementById("main").style.marginLeft = "0%";
@@ -36,4 +17,17 @@ function openSidebar() {
 	document.getElementById("mySidebar").style.marginRight = "0px";
 	document.getElementById("mySidebar").style.display = "inline-block";
 	document.getElementById("menu").style.visibility = 'hidden';
+}
+
+$("#icon").click(function() {
+		window.location.href = "landingPage.jsp";
+});
+
+function handleScroll() {
+	if (window.pageYOffset >= offset) {
+		document.getElementById("header").classList.add("sticky");
+	}
+	else {
+		document.getElementById("header").classList.remove("sticky");
+	}
 }
