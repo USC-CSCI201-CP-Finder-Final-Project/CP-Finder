@@ -49,6 +49,7 @@ public class DetailsServ extends HttpServlet {
 			SessionsManager sm = new SessionsManager(connection);
 			ImmutableList<Session> mySessions = sm.getSessions(courseID, true);
 			ArrayList<User> myCPs = new ArrayList<User>();
+			System.out.println(mySessions.size());
 			for (int i = 0; i < mySessions.size(); i++) {
 				myCPs.add(mySessions.get(i).getUser());
 			}

@@ -12,7 +12,7 @@
 	<div style="display:none" id="mySidebar">
 	  <button class="close navbar" onclick="closeSidebar()">Close &times;</button>
 	  <a id = "settings" href="Settings.jsp" class="links navbar">Settings</a>
-	  <a id = "signout" href="landingPage.jsp" class="links navbar">Sign Out</a>
+	  <a id = "signout" onclick = "signOut()" class="links navbar">Sign Out</a>
 	</div>
 	<div id = "main">
 		<div id = "header">
@@ -41,6 +41,11 @@
 	console.log(data);
 	var sessions = data.list;	
 	var webServiceUrl = "localhost:8080/CP-Finder/"; 
+	
+	function signOut() {
+		<% session.setAttribute("user", null); %>;
+		window.location.href = "landingPage.jsp";
+	}
 	
 	function renderData() {
 		for(i = 0; i < sessions.length; i++) {
