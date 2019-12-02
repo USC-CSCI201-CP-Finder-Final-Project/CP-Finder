@@ -14,7 +14,7 @@
 	</header>
 	</a>
 	<h1>Create an Account</h1>
-	<form name="Login" method="POST" action="Login">
+	<form name="Register" method="POST" action="Register">
 		<input type="text" name="fName" placeholder="First Name" required>
 		<input type="text" name="lName" placeholder="Last Name" required>
 		<input type="text" name="pName" placeholder="Preferred Name" required>
