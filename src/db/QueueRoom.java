@@ -27,7 +27,6 @@ public class QueueRoom {
 	}
 	
 	public void broadcast(String message, ServerThread st, int courseID) {
-		System.out.println("zzz");
 		if (message != null) {
 			System.out.println(serverThreads.get(courseID-1));
 			for(ServerThread threads : serverThreads.get(courseID-1)) {

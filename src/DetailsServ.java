@@ -49,7 +49,6 @@ public class DetailsServ extends HttpServlet {
 			SessionsManager sm = new SessionsManager(connection);
 			ImmutableList<Session> mySessions = sm.getSessions(courseID, true);
 			ArrayList<User> myCPs = new ArrayList<User>();
-			System.out.println(mySessions.size());
 			for (int i = 0; i < mySessions.size(); i++) {
 				myCPs.add(mySessions.get(i).getUser());
 			}
@@ -62,7 +61,6 @@ public class DetailsServ extends HttpServlet {
 			String queueJson = gson.toJson(uq);
 			String courseJson = gson.toJson(myCourse);
 			String cpJson = gson.toJson(mySessions);
-			System.out.println(cpJson);
 			request.setAttribute("queue", queueJson);
 			session.setAttribute("queue", queueJson);
 			request.setAttribute("cps", cpJson);

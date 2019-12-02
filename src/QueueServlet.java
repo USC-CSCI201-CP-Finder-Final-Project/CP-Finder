@@ -50,7 +50,6 @@ public class QueueServlet extends HttpServlet {
     		return;
     	}
     	else if(request.getParameter("func").equals("sendChange")) {
-    		System.out.println(qc.changed);
     		qc.change();
     	}
     	else if(request.getParameter("func").equals("pollChange")) {
@@ -60,7 +59,6 @@ public class QueueServlet extends HttpServlet {
     		}
     		if(b == true) {
     			qc.code= qc.getQ();
-    			System.out.println("p");
     			out.print(qc.code);
     			out.flush();
     			qc.code = "";

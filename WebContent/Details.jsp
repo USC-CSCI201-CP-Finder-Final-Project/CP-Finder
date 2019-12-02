@@ -68,7 +68,6 @@
 	
 	function renderQueue() {
 		$("#courseName").append(course.title);
-		//console.log(mycps);
 		for (var i = 0; i < mycps.length; i++) {
 			$("#cps").append('<div class = "cpDisplay"><div class = "img"><img class="img" src="images/photo-userid-' + mycps[i].CP.id + '.jpg"/>'
 				 + '</div><div class = "cpName"><h3>CP: ' + mycps[i].CP.name +
@@ -78,7 +77,6 @@
 		}
 		
 		if (queue.length > 0) {
-			//console.log(user.userType);
 			$("#queueHeader").append('<div id = "queue">');
 			for (var i = 0; i < queue.length; i++) {
 				$("#queue").append('<div id = '+ i + ' class = "queueDisplay"><div class = "student"><div class = "img"><img class = "studentimg" src="profile.png"/>'
@@ -156,18 +154,7 @@
 		else if ($("#add").text() == "Remove me from the Queue") {
 			command = "remove";
 		}
-		<%-- var xhttp = new XMLHttpRequest();
-		var url = "enqueue?userID=" + user.id + "&courseID=" + course.id + "&command=" + command;
-		xhttp.open("POST", url, true);
-		xhttp.send();
-		xhttp.onreadystatechange = function() {
-			if ($("#add").text() == "Add me to the Queue") {
-				document.getElementById("queueHeader").innerHTML = xhttp.responseText;
-			}
-			else if ($("#add").text() == "Remove me from the Queue") {
-				document.getElementById("queueHeader").innerHTML = xhttp.responseText;
-			}
-		}--%>
+		
 		$.ajax({
 			  url: "enqueue",
 			  data: {userID: user.id, courseID: course.id, command: command},

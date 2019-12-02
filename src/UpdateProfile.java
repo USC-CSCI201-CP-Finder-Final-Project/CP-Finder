@@ -48,19 +48,12 @@ public class UpdateProfile extends HttpServlet {
 		String email = request.getParameter("email"); 
 		String prefname = request.getParameter("prefname");
 		String password = request.getParameter("password");
-		//String pic = request.getParameter("picture");
 		
 		InputStream inputStream = null;
-		
-		//System.out.println(session.getAttribute("picturePath"));
 		
 		Part filePart = request.getPart("picture");
 		
         if (filePart != null) {
-            // prints out some information for debugging
-            System.out.println(filePart.getName());
-            System.out.println(filePart.getSize());
-            System.out.println(filePart.getContentType());
             // obtains input stream of the upload file
             inputStream = filePart.getInputStream();
             

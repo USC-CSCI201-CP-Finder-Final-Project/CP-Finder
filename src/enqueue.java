@@ -52,7 +52,6 @@ public class enqueue extends HttpServlet {
     	int userID = Integer.parseInt(request.getParameter("userID"));
     	String command = request.getParameter("command");
     	User myUser = (User)session.getAttribute("user");
-    	System.out.println(myUser);
     	PrintWriter out = response.getWriter();
     	try {
     		Class.forName("com.mysql.jdbc.Driver");
