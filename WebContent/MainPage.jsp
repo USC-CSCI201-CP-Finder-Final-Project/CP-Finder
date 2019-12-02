@@ -12,7 +12,7 @@
 	<div style="display:none" id="mySidebar">
 	  <button class="close navbar" onclick="closeSidebar()">Close &times;</button>
 	  <a id = "settings" href="Settings.jsp" class="links navbar">Settings</a>
-	  <a id = "signout" onclick = "signOut()" class="links navbar">Sign Out</a>
+	  <a id = "signout" href = "<%=request.getContextPath()%>/logout" class="links navbar">Sign Out</a>
 	</div>
 	<div id = "main">
 		<div id = "header">
