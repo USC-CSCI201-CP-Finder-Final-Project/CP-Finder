@@ -39,7 +39,11 @@
 	var user = <%= session.getAttribute("userJson") %>;
 	var data = <%= session.getAttribute("sessions") %>;
 	console.log(data);
-	var sessions = data.list;	
+	var sessions = "";
+	if (data != null) {
+		sessions = data.list;
+	}
+		
 	var webServiceUrl = "localhost:8080/CP-Finder/"; 
 
 	
@@ -56,7 +60,7 @@
 				+'</div><p class = "status">Status: '+sessions[i].status.name+'<p></div>'
 				+"<hr style='border-top: solid 1px; color: #110336;' /></div>");
 		}
-		if (user == null) {
+		if (user == "null" || user == null) {
 			$("#settings").hide();
 			$("#signout").hide();
 			$("#mySidebar").append('<a id = "signin" href="login.jsp" class="links navbar">Sign In</a>');
