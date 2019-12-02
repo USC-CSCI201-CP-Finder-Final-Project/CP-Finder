@@ -92,8 +92,7 @@ public class QueueClient extends Thread {
 			}
 			code += "</div>";
 			code += "<button onclick = 'enqueue();' id = 'add'>Add me to the Queue</button></div>";
-			return code;
-			
+			return code;		
 			
 		} catch (ClassNotFoundException | SQLException | DatabaseException e) {
 			e.printStackTrace();
