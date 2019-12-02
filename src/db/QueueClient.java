@@ -5,9 +5,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
+
+import models.UserQueue;
 
 public class QueueClient extends Thread {
 
@@ -17,11 +24,17 @@ public class QueueClient extends Thread {
 	public boolean newQueue;
 	public String code;
 	HttpSession session;
+	int id;
+	public static final String CREDENTIALS_STRING = "jdbc:mysql://google/cpfinder?cloudSqlInstance=cpfinder-259622:us-west2:db1&socke"
+			+ "tFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root" +
+		"&password=uscCs201!";
+	public Connection conn;
 	public QueueClient(String hostname, int port, int courseID, HttpSession ses) {
 		try {
 			changed = false;
 			newQueue = false;
 			session = ses;
+			id = courseID;
 			System.out.println("Trying to connect to " + hostname + ":" + port);
 			Socket s = new Socket(hostname, port);
 			System.out.println("Connected to " + hostname + ":" + port);
@@ -60,6 +73,30 @@ public class QueueClient extends Thread {
 	
 	public void print(String s) {
 		System.out.println(s);
+	}
+	
+	public String getQ() {
+		String s = "";
+    	try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection connection = DriverManager.getConnection(CREDENTIALS_STRING);
+			QueuesManager qm = new QueuesManager(connection);
+			UserQueue uq = qm.getQueue(id);
+			Gson gson = new Gson();
+			String code = "";
+			code += "<div id = 'queue'>";
+			for (int i = 0; i < uq.getQueuedUsers().size(); i++) {
+				code += "<div class = 'queueDisplay'><div class = 'student'><div class = 'img'><img class = 'studentimg' src='profile.png'/>"
+					+ "</div><p class = 'studentName'>"+(i+1)+". " + uq.getQueuedUsers().get(i).getUser().getName()+"</p></div>";
+			}
+			code += "<button onclick = 'enqueue();' id = 'add'>Add me to the Queue</button></div>";
+			return code;
+			
+			
+		} catch (ClassNotFoundException | SQLException | DatabaseException e) {
+			e.printStackTrace();
+		}
+    	return s;
 	}
 	
 }
