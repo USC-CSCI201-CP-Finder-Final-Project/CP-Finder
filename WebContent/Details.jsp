@@ -54,6 +54,7 @@
 	var course = <%= session.getAttribute("course") %>;
 	var cps = <%= session.getAttribute("cps") %>;
 	var queue = queueObj.queuedUsers.list;
+	var mycps = cps.list;
 	
 	function removeStudent(userID) {
 		var xhttp = new XMLHttpRequest();
@@ -67,11 +68,14 @@
 	
 	function renderQueue() {
 		$("#courseName").append(course.title);
-				
-		/*for (var i = 0; i < cps.length; i++) {
+		console.log(mycps);
+		for (var i = 0; i < mycps.length; i++) {
 			$("#cps").append('<div class = "cpDisplay"><div class = "img"><img src="profile.png"/>'
-				 + '</div><div class = "cpName">CP: ' + cps[i] + '</div></div>');
-		}*/
+				 + '</div><div class = "cpName"><h3>CP: ' + mycps[i].CP.name +
+				 '</h3><p>Session started: '+mycps[i].createdAt+'</p>'
+					+'<p>Location: SAL Open Lab - '+mycps[i].location.name+'</p>'
+					+'</div><p class = "status">Status: '+mycps[i].status.name+'<p></div></div></div>');
+		}
 		
 		if (queue.length > 0) {
 			console.log(queue.length);

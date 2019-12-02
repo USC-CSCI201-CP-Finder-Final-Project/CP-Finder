@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -45,6 +46,12 @@ public class DetailsServ extends HttpServlet {
 			Class.forName("com.mysql.jdbc.Driver");
 			connection = DriverManager.getConnection(CREDENTIALS_STRING);
 			QueuesManager qm = new QueuesManager(connection);
+			SessionsManager sm = new SessionsManager(connection);
+			ImmutableList<Session> mySessions = sm.getSessions(courseID, true);
+			ArrayList<User> myCPs = new ArrayList<User>();
+			for (int i = 0; i < mySessions.size(); i++) {
+				myCPs.add(mySessions.get(i).getUser());
+			}
 			UserQueue uq = qm.getQueue(courseID);
 			CoursesManager cm = new CoursesManager(connection);
 			ImmutableList<Course> results = cm.getCourses();
@@ -53,8 +60,12 @@ public class DetailsServ extends HttpServlet {
 			Gson gson = new Gson();
 			String queueJson = gson.toJson(uq);
 			String courseJson = gson.toJson(myCourse);
+			String cpJson = gson.toJson(mySessions);
+			System.out.println(cpJson);
 			request.setAttribute("queue", queueJson);
 			session.setAttribute("queue", queueJson);
+			request.setAttribute("cps", cpJson);
+			session.setAttribute("cps", cpJson);
 			
 			request.setAttribute("course", courseJson);
 			session.setAttribute("course", courseJson);
