@@ -19,7 +19,7 @@
 		<div id = "header">
 			<button id = "menu" class = "content" onclick="openSidebar()">&#9776;</button>
 			<div id = "settingsHead">Settings</div>
-			<img id = "icon" class = "content" src = "angryFace.png">
+			<a href = "landingPage.jsp"><img id = "icon" class = "content" src = "angryFace.png"></a>
 		</div>
 		<div id = "settings">
 			<div id = "settingsHeader">
