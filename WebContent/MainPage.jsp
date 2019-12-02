@@ -11,8 +11,8 @@
 <body>
 	<div style="display:none" id="mySidebar">
 	  <button class="close navbar" onclick="closeSidebar()">Close &times;</button>
-	  <a href="Settings.jsp" class="links navbar">Settings</a>
-	  <a href="landingPage.jsp" class="links navbar">Sign Out</a>
+	  <a id = "settings" href="Settings.jsp" class="links navbar">Settings</a>
+	  <a id = "signout" href="landingPage.jsp" class="links navbar">Sign Out</a>
 	</div>
 	<div id = "main">
 		<div id = "header">
@@ -35,7 +35,8 @@
 	</div>
 </body>
 <script>
-
+	
+	var user = <%= session.getAttribute("userJson") %>;
 	var data = <%= session.getAttribute("sessions") %>;
 	console.log(data);
 	var sessions = data.list;	
@@ -53,6 +54,12 @@
 				+'<p>Location: SAL Open Lab - '+sessions[i].location.name+'</p>'
 				+'</div><p class = "status">Status: '+sessions[i].status.name+'<p></div>'
 				+"<hr style='border-top: solid 1px; color: #110336;' /></div>");
+		}
+		if (user == null) {
+			$("#settings").hide();
+			$("#signout").hide();
+			$("#mySidebar").append('<a id = "signin" href="login.jsp" class="links navbar">Sign In</a>');
+			$("#mySidebar").append('<a id = "signin" href="Register.jsp" class="links navbar">Register</a>');
 		}
 	}
 	

@@ -83,14 +83,18 @@
 			for (var i = 0; i < queue.length; i++) {
 				$("#queue").append('<div id = '+ i + ' class = "queueDisplay"><div class = "student"><div class = "img"><img class = "studentimg" src="profile.png"/>'
 					+ '<p class = "studentName">'+(i+1)+'. '+queue[i].user.name+'</p>');
-				if (user.userType == "CP") {
-					$("#queue").append('<button onclick = "removeStudent('+queue[i].user.id+')" class = "remove">Remove</div></div></div>');
-				}
-				else {
-					$("#queue").append('</div></div></div>');
+				if (user != null) {
+					if (user.userType == "CP") {
+						$("#queue").append('<button onclick = "removeStudent('+queue[i].user.id+')" class = "remove">Remove</div></div></div>');
+					}
+					else {
+						$("#queue").append('</div></div></div>');
+					}
 				}
 			}
-			$("#queueHeader").append('<button onclick = "enqueue();" id = "add">Add me to the Queue</button></div>');
+			if (user != null) {
+				$("#queueHeader").append('<button onclick = "enqueue();" id = "add">Add me to the Queue</button></div>');
+			}
 		}
 		else {
 			$("#queueHeader").append('<div id = "queue">No students'
@@ -168,17 +172,17 @@
 			  url: "enqueue",
 			  data: {userID: user.id, courseID: course.id, command: command},
 			  complete: function(results){
-				  document.getElementById('queueHeader').innerHTML = results.responseText;
+				  document.getElementById("queueHeader").innerHTML = results.responseText;
 			  },
 			  dataType: String
 			});
 		
-		var func = "sendChange";
+		var func = "sendChange"
 		$.ajax({
 		  url: "QueueServlet",
 		  data: {func: func},
-		  complete: function(results){
-
+		  success: function(results){
+			  alert("a");
 		  },
 		  dataType: String
 		});
@@ -187,19 +191,23 @@
 	
 	function waitChange() {
 		console.log("x");
-		var func = "pollChange";
+		var func = "pollChange"
 		$.ajax({
 		  url: "QueueServlet",
 		  data: {func: func},
 		  success: function(results){
-			 
+			  console.log(results);
+			  if(results != "false"){
+				console.log("y");
+				document.getElementById("queueHeader").innerHTML = results;
+			  }
 		  	},
 		  complete: function(results){
-			  var z = results.responseText;
+			  var z = results.responseText
 			  if(z != "false" ){
 			  	console.log("true");
 			  	
-			  	document.getElementById('queueHeader').innerHTML = z;
+			  	document.getElementById("queueObj").innerHTML = z;
 			  }
 		  },
 		  dataType: String
