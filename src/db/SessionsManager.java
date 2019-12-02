@@ -106,7 +106,7 @@ public class SessionsManager extends TableManager {
 				+ "LEFT JOIN locations ON locations.location_id = sessions.location_id "
 				+ "LEFT JOIN statuses ON statuses.status_id = sessions.status_id "
 				+ "LEFT JOIN courses ON courses.course_id = sessions.course_id "
-				+ "WHERE course_id = ?";
+				+ "WHERE sessions.course_id = ?";
 		if(onlyOpen) {
 			getSessionsQuery += " AND closed_at IS NULL";
 		}
