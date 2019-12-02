@@ -8,11 +8,13 @@
 <title>Landing Page</title>
 </head>
 <body>
-	<img src="angryFace.png" alt="AngryFace">
-	<h1>Where's My CP?</h1>
-	<h2>I'll find you and kill you!</h2>
-	<a href="login.jsp">Sign In</a>
-	<a href="Register.jsp">Sign Up</a>
-	<a href="MainPage.jsp">Continue as Guest</a>
+	<div id = "main">
+		<img src="angryFace.png" alt="AngryFace">
+		<h1>Where's My CP?</h1>
+		<h2>I'll find you and kill you!</h2>
+		<a href="login.jsp">Sign In</a>
+		<a href="Register.jsp">Sign Up</a>
+		<a href="MainPage.jsp">Continue as Guest</a>
+	</div>
 </body>
 </html>
