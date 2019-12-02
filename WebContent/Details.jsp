@@ -170,17 +170,17 @@
 			  url: "enqueue",
 			  data: {userID: user.id, courseID: course.id, command: command},
 			  complete: function(results){
-				  document.getElementById("queueHeader").innerHTML = results.responseText;
+				  document.getElementById('queueHeader').innerHTML = results.responseText;
 			  },
 			  dataType: String
 			});
 		
-		var func = "sendChange"
+		var func = "sendChange";
 		$.ajax({
 		  url: "QueueServlet",
 		  data: {func: func},
-		  success: function(results){
-			  alert("a");
+		  complete: function(results){
+
 		  },
 		  dataType: String
 		});
@@ -189,23 +189,19 @@
 	
 	function waitChange() {
 		console.log("x");
-		var func = "pollChange"
+		var func = "pollChange";
 		$.ajax({
 		  url: "QueueServlet",
 		  data: {func: func},
 		  success: function(results){
-			  console.log(results);
-			  if(results != "false"){
-				console.log("y");
-				document.getElementById("queueHeader").innerHTML = results;
-			  }
+			 
 		  	},
 		  complete: function(results){
-			  var z = results.responseText
+			  var z = results.responseText;
 			  if(z != "false" ){
 			  	console.log("true");
 			  	
-			  	document.getElementById("queueObj").innerHTML = z;
+			  	document.getElementById('queueHeader').innerHTML = z;
 			  }
 		  },
 		  dataType: String
