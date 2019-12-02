@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import db.DatabaseConnectionCreator;
+import models.User;
 
 @WebServlet("/UpdateProfile")
 //@MultipartConfig(maxFileSize = 16177215)
@@ -40,7 +41,7 @@ public class UpdateProfile extends HttpServlet {
 		ResultSet rs = null;
 		FileInputStream fis = null;
 		
-		//int userID = (int) session.getAttribute("userid");
+		User currentUser = (User) session.getAttribute("user");		
 		String name = request.getParameter("name"); 
 		String email = request.getParameter("email"); 
 		String prefname = request.getParameter("prefname");
@@ -66,7 +67,7 @@ public class UpdateProfile extends HttpServlet {
 		try {
 			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
 			connection = DatabaseConnectionCreator.createConnection();
-			pstmt = connection.prepareStatement("UPDATE users SET name = ?, email = ?, preferred_name = ?, password = ?, picture = ? WHERE user_id = 10");
+			pstmt = connection.prepareStatement("UPDATE users SET name = ?, email = ?, preferred_name = ?, password = ?, picture = ? WHERE user_id = ?");
 			pstmt.setString(1, name);
 			pstmt.setString(2, email);
 			pstmt.setString(3, prefname);
@@ -74,7 +75,8 @@ public class UpdateProfile extends HttpServlet {
 			
 			if (inputStream != null) {
 				pstmt.setBlob(5, inputStream);
-            } 
+            }
+			pstmt.setInt(6, currentUser.getId());
 			
 			int row = pstmt.executeUpdate();
 			if (row > 0) {

@@ -68,14 +68,13 @@ public class MainPage extends HttpServlet {
         	request.setAttribute("sessionsObject", activeSessions);
     		session.setAttribute("sessionsObject", activeSessions);
     		
-			int photoIndex = 0;
 			String rootPath = request.getSession().getServletContext().getRealPath("/");
     		for (Session s : activeSessions) {
+    			int userID = s.getUser().getId();
 				byte [] data = s.getUser().getImgData();
 				ByteArrayInputStream bis = new ByteArrayInputStream(data);
 				BufferedImage bi = ImageIO.read(bis);
-				ImageIO.write(bi, "jpg", new File(rootPath + "images/photo" + photoIndex + ".jpg") );
-				++photoIndex;
+				ImageIO.write(bi, "jpg", new File(rootPath + "images/photo-userid-" + userID + ".jpg") );
 			}
     	} catch (SQLException | ClassNotFoundException | DatabaseException sqle) {
     		System.out.println(sqle.getMessage());

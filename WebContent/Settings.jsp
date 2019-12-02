@@ -87,12 +87,12 @@
 				}
 			}
 		}
-		
-		
+				
 		function populateUser() {
-			$('input[name=name]').val(user.name);
-			$('input[name=email]').val(user.email);
-			$('input[name=prefName]').val(user.preferredName);
+			$("input[name='name']").val(user.name);
+			$("input[name='email']").val(user.email);
+			$("input[name='prefname']").val(user.preferredName);
+			$("input[name='password']").val(user.password);
 			
 			if (user.userType == "CP") {
 				$("#cp").show();
