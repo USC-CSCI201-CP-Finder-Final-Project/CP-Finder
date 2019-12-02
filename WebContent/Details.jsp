@@ -56,11 +56,6 @@
 	var queue = queueObj.queuedUsers.list;
 	var mycps = cps.list;
 	
-	function signOut() {
-		<% session.setAttribute("user", null); %>;
-		window.location.href = "landingPage.jsp";
-	}
-	
 	function removeStudent(userID) {
 		var xhttp = new XMLHttpRequest();
 		var url = "enqueue?userID=" + userID + "&courseID=" + course.id + "&command=remove";

@@ -41,11 +41,7 @@
 	console.log(data);
 	var sessions = data.list;	
 	var webServiceUrl = "localhost:8080/CP-Finder/"; 
-	
-	function signOut() {
-		<% session.setAttribute("user", null); %>;
-		window.location.href = "landingPage.jsp";
-	}
+
 	
 	function renderData() {
 		for(i = 0; i < sessions.length; i++) {

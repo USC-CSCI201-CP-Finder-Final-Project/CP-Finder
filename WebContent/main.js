@@ -2,6 +2,11 @@ window.onscroll = function() { handleScroll() };
 
 var offset = document.getElementById("header").offsetTop;
 
+function signOut() {
+	sessionStorage.clear();
+	window.location.href = "landingPage.jsp";
+}
+
 $("#icon").click(function() {
 		window.location.href = "landingPage.jsp";
 });

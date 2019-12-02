@@ -63,11 +63,6 @@
 		var user = <%= session.getAttribute("userJson") %>;
 		var course = <%= session.getAttribute("course") %>;
 		
-		function signOut() {
-			<% session.setAttribute("user", null); %>;
-			window.location.href = "landingPage.jsp";
-		}
-		
 		
 		function cpCheckin() {
 			var command = "";

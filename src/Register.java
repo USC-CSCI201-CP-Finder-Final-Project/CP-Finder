@@ -17,6 +17,8 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import db.DatabaseException;
+import db.UsersManager;
 import models.User;
 import models.UserType;
 
@@ -84,6 +86,14 @@ public class Register extends HttpServlet {
 		if (error.equals("")) {
 			if ("CP".equals(isCP)) {
 				User user = new User(firstname + " " + lastname, email, password, preferredname, new byte[100], UserType.CP);
+				try {
+					Class.forName("com.mysql.jdbc.Driver");
+					connection = DriverManager.getConnection(CREDENTIALS_STRING);
+					UsersManager um = new UsersManager(connection);
+					um.createUser(user);
+				} catch (ClassNotFoundException | SQLException | DatabaseException e) {
+					e.printStackTrace();
+				} 
 				Gson gson = new Gson();
 				String userString = gson.toJson(user);
 				session.setAttribute("userJson", userString);
@@ -93,6 +103,14 @@ public class Register extends HttpServlet {
 			}
 			else if ("student".equals(isCP)) {
 				User user = new User(firstname + " " + lastname, email, password, preferredname, new byte[100], UserType.Student);
+				try {
+					Class.forName("com.mysql.jdbc.Driver");
+					connection = DriverManager.getConnection(CREDENTIALS_STRING);
+					UsersManager um = new UsersManager(connection);
+					um.createUser(user);
+				} catch (ClassNotFoundException | SQLException | DatabaseException e) {
+					e.printStackTrace();
+				} 
 				Gson gson = new Gson();
 				String userString = gson.toJson(user);
 				session.setAttribute("userJson", userString);
