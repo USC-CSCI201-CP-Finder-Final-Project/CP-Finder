@@ -35,11 +35,23 @@ input
 	background-color: white;
 	font-family: 'Open Sans', sans-serif;
 }
-
-::placeholder
-{
-	color: white;
+::-webkit-input-placeholder {
+  color: #BD2031;
+  visibility: visible;
 }
+::-moz-placeholder {
+  color: #BD2031;
+  visibility: visible;
+}
+:-ms-input-placeholder {
+  color: #BD2031;
+  visibility: visible;
+}
+::placeholder {
+  color: #BD2031;
+  visibility: visible;
+}
+
 
 button, a
 {
