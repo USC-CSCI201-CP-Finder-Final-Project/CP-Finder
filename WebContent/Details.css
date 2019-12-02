@@ -295,8 +295,9 @@ h3 {
 	height: 75%;
 	object-fit: cover;
 	margin: auto;
+	border-radius: 50%;
 }
-
+	
 .studentimg {
 	padding: 15px;
 	align-self: center;

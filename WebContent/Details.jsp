@@ -70,7 +70,7 @@
 		$("#courseName").append(course.title);
 		console.log(mycps);
 		for (var i = 0; i < mycps.length; i++) {
-			$("#cps").append('<div class = "cpDisplay"><div class = "img"><img src="profile.png"/>'
+			$("#cps").append('<div class = "cpDisplay"><div class = "img"><img class="img" src="images/photo-userid-' + mycps[i].CP.id + '.jpg"/>'
 				 + '</div><div class = "cpName"><h3>CP: ' + mycps[i].CP.name +
 				 '</h3><p>Session started: '+mycps[i].createdAt+'</p>'
 					+'<p>Location: SAL Open Lab - '+mycps[i].location.name+'</p>'
