@@ -13,7 +13,7 @@
 	<div style="display:none" id="mySidebar">
 	  <button class="close navbar" onclick="closeSidebar()">Close &times;</button>
 	  <a onclick = "history.back()" class="links navbar">Home</a>
-	  <a href="landingPage.jsp" class="links navbar">Sign Out</a>
+	  <a id = "signout" onclick = "signOut()" class="links navbar">Sign Out</a>
 	  <a href="Settings.jsp" class="links navbar">Settings</a>
 	</div>
 	
@@ -55,6 +55,11 @@
 	var cps = <%= session.getAttribute("cps") %>;
 	var queue = queueObj.queuedUsers.list;
 	var mycps = cps.list;
+	
+	function signOut() {
+		<% session.setAttribute("user", null); %>;
+		window.location.href = "landingPage.jsp";
+	}
 	
 	function removeStudent(userID) {
 		var xhttp = new XMLHttpRequest();
