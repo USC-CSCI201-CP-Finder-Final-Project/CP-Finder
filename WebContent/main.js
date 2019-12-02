@@ -2,6 +2,10 @@ window.onscroll = function() { handleScroll() };
 
 var offset = document.getElementById("header").offsetTop;
 
+$("#icon").click(function() {
+		window.location.href = "landingPage.jsp";
+});
+
 function handleScroll() {
 	if (window.pageYOffset >= offset) {
 		document.getElementById("header").classList.add("sticky");

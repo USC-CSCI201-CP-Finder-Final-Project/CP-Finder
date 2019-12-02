@@ -180,11 +180,13 @@ p {
 }
 
 .links {
+	width: 100%;
 	font-family: 'Oswald', sans-serif;
 	color: #110336;
 	text-decoration: none;
 	margin-top: 15px;
 	font-size: 200%;
+	text-align: initial;
 }
 
 .links:hover {

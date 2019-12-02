@@ -31,17 +31,21 @@ img
 	width:10%;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 25vh;
+	margin-top: 100px;
+}
+
+#main {
+	padding-bottom: 100px;
 }
 
 a
 {
-	font-family: 'Open Sans', sans-serif;
-	border: 2px solid #110336;
+	font-family: 'Oswald', sans-serif;
+	border: 2px solid white;
 	-moz-box-shadow:    inset 0 0 5px #110336;
     -webkit-box-shadow: inset 0 0 5px #110336;
    	box-shadow:         inset 0 0 5px #110336;
-	color: white;
+	color: #110336;
 	display: block;
 	margin: auto;
 	width: 200px;
@@ -49,6 +53,5 @@ a
 	margin-bottom: 10px;
 	text-align: center;
 	text-decoration: none;
-	font-family: sans-serif;
 	border-radius: 10px;
 }
