@@ -182,9 +182,9 @@ blockquote, q {
 	padding: 15px;
 	display: flex;
 	flex-wrap: nowrap;
-	-moz-box-shadow:    inset 0 0 10px gray;
-    -webkit-box-shadow: inset 0 0 10px gray;
-	   box-shadow:         inset 0 0 10px gray;
+	-moz-box-shadow:    inset 0 0 5px #110336;
+    -webkit-box-shadow: inset 0 0 5px #110336;
+   	box-shadow:         inset 0 0 5px #110336;
 	overflow-x: auto;
 	height: 90%;
 	border: 1px solid #110336;
@@ -199,9 +199,9 @@ blockquote, q {
 #queueObj {
 	font-family: 'Oswald', sans-serif;
 	margin: 100px;
-	-moz-box-shadow:    inset 0 0 10px gray;
-    -webkit-box-shadow: inset 0 0 10px gray;
-	   box-shadow:         inset 0 0 10px gray;
+	-moz-box-shadow:    inset 0 0 5px #110336;
+    -webkit-box-shadow: inset 0 0 5px #110336;
+   	box-shadow:         inset 0 0 5px #110336;
 	   padding: 15px;
 }
 
