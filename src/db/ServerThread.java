@@ -39,7 +39,6 @@ public class ServerThread extends Thread {
 	}
 
 	public void sendMessage(String message) {
-		System.out.println("W");
 		pw.println(message);
 		pw.flush();
 	}
@@ -47,7 +46,6 @@ public class ServerThread extends Thread {
 	public void run() {
 		try {
 			while(true) {
-				System.out.println("f");
 				String line;
 				String code;
 				line = br.readLine();
@@ -55,14 +53,11 @@ public class ServerThread extends Thread {
 					
 				}
 				else if(line.equals("change")) {
-					System.out.println("c");
 					code = this.getQ();
-					System.out.println(code);
 					qr.broadcast(code, this, id);
 				}
 				else if(Integer.parseInt(line) > 0) {
 					id = Integer.parseInt(line);
-					System.out.println(id);
 					qr.add(this, id);
 				}
 			}
@@ -74,7 +69,6 @@ public class ServerThread extends Thread {
 	public String getQ() {
 		String s = "";
     	try {
-    		System.out.println("HERE");
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection connection = DriverManager.getConnection(CREDENTIALS_STRING);
 			QueuesManager qm = new QueuesManager(connection);

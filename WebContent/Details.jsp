@@ -68,7 +68,7 @@
 	
 	function renderQueue() {
 		$("#courseName").append(course.title);
-		console.log(mycps);
+		//console.log(mycps);
 		for (var i = 0; i < mycps.length; i++) {
 			$("#cps").append('<div class = "cpDisplay"><div class = "img"><img src="profile.png"/>'
 				 + '</div><div class = "cpName"><h3>CP: ' + mycps[i].CP.name +
@@ -78,7 +78,7 @@
 		}
 		
 		if (queue.length > 0) {
-			console.log(user.userType);
+			//console.log(user.userType);
 			$("#queueHeader").append('<div id = "queue">');
 			for (var i = 0; i < queue.length; i++) {
 				$("#queue").append('<div id = '+ i + ' class = "queueDisplay"><div class = "student"><div class = "img"><img class = "studentimg" src="profile.png"/>'

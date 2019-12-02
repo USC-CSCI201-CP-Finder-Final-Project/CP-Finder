@@ -38,15 +38,12 @@ public class QueueClient extends Thread {
 	public void run() {
 		try {
 			while(true) {
-				System.out.println("V");
 				String c = br.readLine();
 				if(!c.equals("")) {
-					System.out.println("U");
 					code = c;
 					newQueue = true;
 					session.setAttribute("queueChanged", "true");
 					session.setAttribute("queueClient", this);
-					System.out.println(session.getAttribute("queueChanged"));
 				}
 			}
 		} catch (IOException ioe) {
@@ -56,11 +53,8 @@ public class QueueClient extends Thread {
 	
 	public void change() {
 		changed = true;
-		System.out.println("b");
 		pw.println("change");
-		System.out.println("d");
 		pw.flush();
-		System.out.println("e");
 		changed = false;
 	}
 	

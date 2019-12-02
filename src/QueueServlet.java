@@ -43,7 +43,6 @@ public class QueueServlet extends HttpServlet {
     	PrintWriter out = response.getWriter();
     	QueueClient qc = (QueueClient) session.getAttribute("queueClient");
     	if(request.getParameter("func").equals("getNewQueue")) {
-    		System.out.println("AAA");
     		session.setAttribute("queueChanged", "false");
     		out.print(qc.code);
     		qc.code = "";
@@ -59,14 +58,11 @@ public class QueueServlet extends HttpServlet {
     			b = qc.newQueue;
     		}
     		if(b == true) {
-    			System.out.println("mmm");
-    			System.out.println(qc.code);
     			out.print(qc.code);
     			out.flush();
     			qc.code = "";
     			qc.newQueue = false;
     			session.setAttribute("queueClient", qc);
-    			System.out.println("nnn");
     			return;
     		}
     		else {

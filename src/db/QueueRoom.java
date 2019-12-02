@@ -27,13 +27,10 @@ public class QueueRoom {
 	}
 	
 	public void broadcast(String message, ServerThread st, int courseID) {
-		System.out.println("Z");
 		if (message != null) {
-			System.out.println("Y");
 			System.out.println(serverThreads.get(courseID-1));
 			for(ServerThread threads : serverThreads.get(courseID-1)) {
 				if (st != threads) {
-					System.out.println("X");
 					threads.sendMessage(message);
 				}
 			}
