@@ -78,7 +78,7 @@
 		}
 		
 		if (queue.length > 0) {
-			console.log(queue.length);
+			console.log(user.userType);
 			$("#queueHeader").append('<div id = "queue">');
 			for (var i = 0; i < queue.length; i++) {
 				$("#queue").append('<div id = '+ i + ' class = "queueDisplay"><div class = "student"><div class = "img"><img class = "studentimg" src="profile.png"/>'

@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Oswald&display=swap');
 
 img
 {
@@ -16,6 +17,7 @@ h1
 	font-size: 75px;
 	color: #BD2031;	
 	text-align: center;
+	font-family: 'Oswald', sans-serif;
 }
 
 input
@@ -27,15 +29,16 @@ input
 	margin-bottom: 10px;
 	font-size: 20px;
 	border-radius: 10px;
-	border: none; 
-	background-color:#DDD;
+	border: 1px solid #110336; 
+	color: #110336;
 	padding: 10px;
-	color: #BD2031;
+	background-color: white;
+	font-family: 'Open Sans', sans-serif;
 }
 
 ::placeholder
 {
-	color: #BD2031;
+	color: white;
 }
 
 button, a
@@ -51,8 +54,10 @@ button, a
 	text-decoration: none;
 	font-family: sans-serif;
 	border-radius: 10px;
-	background-color: #BD2031; 
+	background: rgb(189,32,49);
+	background: linear-gradient(90deg, rgba(189,32,49,1) 29%, rgba(226,108,43,1) 43%, rgba(189,32,49,1) 58%, rgba(226,84,43,1) 76%, rgba(189,32,49,1) 100%);
 	font-size: 20px;
+	font-family: 'Oswald', sans-serif;
 }
 
 a
@@ -68,7 +73,7 @@ a
 	width: 25%;
 	margin:auto;
 	color: #BD2031;
-	font-family: sans-serif;
+	font-family: 'Open Sans', sans-serif;
 	margin-top: 25px;
 	font-size: 20px;
 }
@@ -93,5 +98,5 @@ a#imageButton
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 5vh;
-}
+
 }
