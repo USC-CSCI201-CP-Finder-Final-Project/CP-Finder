@@ -74,7 +74,7 @@ public class MainPage extends HttpServlet {
 				byte [] data = s.getUser().getImgData();
 				ByteArrayInputStream bis = new ByteArrayInputStream(data);
 				BufferedImage bi = ImageIO.read(bis);
-				ImageIO.write(bi, "jpg", new File(rootPath + "images/photo-userid-" + userID + ".jpg") );
+				//ImageIO.write(bi, "jpg", new File(rootPath + "images/photo-userid-" + userID + ".jpg") );
 			}
     	} catch (SQLException | ClassNotFoundException | DatabaseException sqle) {
     		System.out.println(sqle.getMessage());

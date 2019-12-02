@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import com.google.gson.Gson;
+
 import db.DatabaseConnectionCreator;
 import models.User;
 
@@ -79,6 +81,14 @@ public class UpdateProfile extends HttpServlet {
 			pstmt.setInt(6, currentUser.getId());
 			
 			int row = pstmt.executeUpdate();
+			currentUser.setName(name);
+			currentUser.setEmail(email);
+			
+			Gson gson = new Gson();
+			String userString = gson.toJson(currentUser);
+			session.setAttribute("userJson", userString);
+			
+			
 			if (row > 0) {
 				System.out.println("[Settings] Picture inserted successfully");
 			}
