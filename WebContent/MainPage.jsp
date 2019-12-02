@@ -27,7 +27,7 @@
 					</div>
 				</div>
 			</form>
-			<a href = "landingPage.jsp"><img id = "icon" class = "content" src = "angryFace.png"></a>
+			<img id = "icon" class = "content" src = "angryFace.png">
 		</div>
 		<div id = "results">
 			<h2 id = "title">Active Sessions</h2>

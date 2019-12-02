@@ -23,7 +23,7 @@
 			<form class = "content">
 				<div id = "courseName"></div>
 			</form>
-			<a href = "landingPage.jsp"><img id = "icon" class = "content" src = "angryFace.png"></a>
+			<img id = "icon" class = "content" src = "angryFace.png">
 		</div>
 		<div id = "mainContent">
 			<div id = "firstHalf">
