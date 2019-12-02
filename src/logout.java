@@ -32,10 +32,10 @@ public class logout extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-    	session.removeAttribute("user");
-    	session.removeAttribute("userJson");
-    	request.removeAttribute("user");
-    	request.removeAttribute("userJson");
+    	session.setAttribute("user", null);
+    	session.setAttribute("userJson", null);
+    	request.setAttribute("user", null);
+    	request.setAttribute("userJson", null);
     	RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/landingPage.jsp");
 		dispatch.forward(request, response); 
 	}
