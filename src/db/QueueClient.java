@@ -84,11 +84,13 @@ public class QueueClient extends Thread {
 			UserQueue uq = qm.getQueue(id);
 			Gson gson = new Gson();
 			String code = "";
+			code += "<div id = 'queueHeader'><h3 class = 'queueText'>Students in Queue</h3>";
 			code += "<div id = 'queue'>";
 			for (int i = 0; i < uq.getQueuedUsers().size(); i++) {
-				code += "<div class = 'queueDisplay'><div class = 'student'><div class = 'img'><img class = 'studentimg' src='profile.png'/>"
-					+ "</div><p class = 'studentName'>"+(i+1)+". " + uq.getQueuedUsers().get(i).getUser().getName()+"</p></div>";
+				code += "<div id = "+ i + "class = 'queueDisplay'><div class = 'student'><div class = 'img'><img class = 'studentimg' src='profile.png'/>"
+					+ "<p class = 'studentName'>"+(i+1)+". " + uq.getQueuedUsers().get(i).getUser().getName()+"</p></div></div></div>";
 			}
+			code += "</div>";
 			code += "<button onclick = 'enqueue();' id = 'add'>Add me to the Queue</button></div>";
 			return code;
 			
